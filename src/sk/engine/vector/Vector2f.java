@@ -4,7 +4,7 @@ public class Vector2f {
 	
 	public static final int LENGTH = 2;
 	
-	public static final int SIZE = Float.SIZE * 8 * LENGTH;
+	public static final int SIZE = Float.SIZE / 8 * LENGTH;
 	
 	public float x, y;
 	

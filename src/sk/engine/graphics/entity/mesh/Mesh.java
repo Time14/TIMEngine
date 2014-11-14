@@ -66,7 +66,7 @@ public class Mesh {
 		for(int i = 0; i < vertices[0].getComponents().length; i++) {
 			glEnableVertexAttribArray(i);
 			glVertexAttribPointer(i, vertices[0].getComponents()[i], GL_FLOAT, false, vertices[0].getSize(), buffer_offset);
-			buffer_offset += vertices[0].getComponents()[i] * Float.SIZE * 8;
+			buffer_offset += vertices[0].getComponents()[i] * Float.SIZE / 8;
 		}
 		
 		glDrawArrays(type, offset, count);
