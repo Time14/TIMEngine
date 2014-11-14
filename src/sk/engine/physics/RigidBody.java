@@ -12,5 +12,6 @@ public class RigidBody {
 	
 	public RigidBody() {
 		direction = new Vector2f();
+		/*Hello there Sporre*/
 	}
 }
