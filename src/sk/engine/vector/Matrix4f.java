@@ -10,7 +10,7 @@ package sk.engine.vector;
 
 public class Matrix4f {
 	
-	public static final int SIZE = Float.BYTES * 16;
+	public static final int SIZE = Float.SIZE * 8 * 16;
 	
 	public float[] matrix = new float[16];
 	

@@ -4,7 +4,7 @@ public class Vector4f {
 	
 	public static final int LENGTH = 4;
 	
-	public static final int SIZE = Float.BYTES * LENGTH;
+	public static final int SIZE = Float.SIZE * 8 * LENGTH;
 	
 	public float x, y, z, w;
 	
