@@ -1,4 +1,4 @@
-package sk.engine.physics.collision;
+package sk.engine.physics;
 
 import sk.engine.vector.Vector2f;
 
