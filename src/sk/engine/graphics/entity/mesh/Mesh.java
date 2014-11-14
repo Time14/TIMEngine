@@ -1,5 +1,7 @@
 package sk.engine.graphics.entity.mesh;
 
+import java.io.ObjectInputStream.GetField;
+
 import sk.engine.graphics.entity.mesh.vertex.Vertex;
 import sk.engine.graphics.entity.mesh.vertex.Vertex2D;
 import sk.engine.util.BufferUtil;
@@ -70,5 +72,9 @@ public class Mesh {
 		}
 		
 		glDrawArrays(type, offset, count);
+	}
+	
+	public Vertex[] getVertices() {
+		return vertices;
 	}
 }

@@ -3,6 +3,13 @@ package sk.engine.core;
 import sk.engine.gamestate.GameStateManager;
 import sk.engine.graphics.Window;
 
+/**
+ * 
+ * The Time Engine is an engine designed to benefit the needs for "Time: The Game"
+ * 
+ * @version v1.0
+ * @author Alfred Sporre & Edvard Thörnros
+ */
 public final class Core {
 	
 	private int error;
