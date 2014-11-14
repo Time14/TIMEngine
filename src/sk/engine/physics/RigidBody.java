@@ -11,6 +11,6 @@ public class RigidBody {
 	private float mass;
 	
 	public RigidBody() {
-		direction = new Vector2f(0, -1);
+		direction = new Vector2f();
 	}
 }
