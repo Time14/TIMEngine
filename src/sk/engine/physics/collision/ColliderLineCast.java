@@ -28,14 +28,13 @@ public class ColliderLineCast extends Collider {
 			return 1;
 		else if (deltaX == 0 && pointToTest.y == point1.y) 
 			return 1;
-		else if ( (pointToTest.y - m)/( deltaY/deltaX) < pointToTest.x ) {
+		else if ( (pointToTest.y - m)/( deltaY/deltaX) < pointToTest.x )
 			return 1;
-		}
 		else
 			return 0;
 	}
 	
-	public boolean isOdd(int n){
-		return n % 2 == 1;
+	private boolean isOdd(int i){
+		return i % 2 == 1;
 	}	
 }

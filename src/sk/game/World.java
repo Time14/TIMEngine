@@ -3,7 +3,9 @@ package sk.game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import sk.engine.core.Time;
 import sk.engine.graphics.Window;
+import sk.engine.util.graph.Interpolation;
 
 public class World {
 	
@@ -29,6 +31,8 @@ public class World {
 		return this;
 	}
 	
+	private Interpolation slerp;
+	
 	public void update() {
 		
 		for(Ball b : deadBalls) {
@@ -39,8 +43,11 @@ public class World {
 		
 		player.update();
 		
-		for(Coin c : coins)
-			c.update();
+		slerp.update(Time.getDelta());
+		
+		coins.get(0).getTransform().getPosition().x += slerp.getSlerp() / 100;
+//		for(Coin c : coins)
+//			c.update();
 		for(Ball b : balls) {
 			b.update();
 			if(b.getTransform().getPosition().x > Window.getWidth() || b.getTransform().getPosition().x < 0
@@ -59,10 +66,9 @@ public class World {
 	}
 	
 	public void populate() {
+		slerp = new Interpolation(10);
 		Random r = new Random();
-		for(int i = 0; i < 100; i++) {
-			coins.add(new Coin(r.nextInt(Window.getWidth()), r.nextInt(Window.getHeight())));
-		}
+		coins.add(new Coin(0, 0));
 	}
 	
 	public Player getPlayer() {
