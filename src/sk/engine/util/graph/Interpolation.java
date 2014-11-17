@@ -2,15 +2,15 @@ package sk.engine.util.graph;
 
 public class Interpolation {
 	private double time;
-	private double totalTime;
+	private double duration;
 	private double difference;
 	
 	/**
 	 * @param time The total amount of time the interpolation takes
 	 */
-	public Interpolation(double time) {
+	public Interpolation(double duration) {
 		this.time = 0;
-		totalTime = time;
+		this.duration = duration;
 		difference = 1f / time;
 	}
 	
@@ -18,20 +18,20 @@ public class Interpolation {
 		time += tick;
 	}
 	
-	public void set(double time) {
+	public void setDuration(double time) {
 		this.difference = 1f / time;
 	}
 	
 	public double getLerp() {
-		if(time < totalTime)
+		if(time < duration)
 			return time * difference;
 		else
 			return 1;
 	}
 	
 	public double getSlerp() {
-		if(time < totalTime)
-			return Math.sin(-time * difference + Math.PI) / Math.sin(-totalTime * difference + Math.PI);
+		if(time < duration)
+			return Math.sin(-time * difference + Math.PI) / Math.sin(-duration * difference + Math.PI);
 		else
 			return 1;
 	}
