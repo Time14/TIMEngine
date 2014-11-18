@@ -30,9 +30,7 @@ public class RigidBody {
 	}
 	
 	public void update() {
-		for(Collider c : colliders) {
-			c.sendTransform(transform);
-		}
+		
 	}
 	
 	public RigidBody addColliders(Collider... colliders) {
@@ -42,8 +40,11 @@ public class RigidBody {
 		return this;
 	}
 	
-	public RigidBody addTransform(Transform transform) {
+	public RigidBody setTransform(Transform transform) {
 		this.transform = transform;
+		
+		for(Collider c : colliders)
+			c.sendTransform(transform);
 		
 		return this;
 	}

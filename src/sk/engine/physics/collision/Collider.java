@@ -8,8 +8,6 @@ import sk.engine.vector.Vector4f;
 
 public abstract class Collider {
 	
-	protected final Vector4f[] relativePoints;
-	
 	protected Vector4f[] points;
 	
 	protected Transform transform;
@@ -22,7 +20,6 @@ public abstract class Collider {
 	
 	public Collider(Vector4f[] points, Transform transform) {
 		this.points = points;
-		this.relativePoints = points.clone();
 		this.transform = transform;
 		length = points.length;
 	}

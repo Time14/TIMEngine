@@ -32,7 +32,6 @@ public class World {
 	}
 	
 	private Interpolation slerp;
-	
 	public void update() {
 		
 		for(Ball b : deadBalls) {
@@ -43,9 +42,9 @@ public class World {
 		
 		player.update();
 		
-		slerp.update(Time.getDelta());
-		
-		
+		coins.get(0).getTransform().getPosition().x += slerp.getSlerp() / 100;
+		for(Coin c : coins)
+			c.update();
 		
 		for(Ball b : balls) {
 			b.update();
@@ -59,9 +58,8 @@ public class World {
 		player.draw();
 		for(Coin c : coins)
 			c.draw();
-		for(Ball b : balls) {
+		for(Ball b : balls)
 			b.draw();
-		}
 	}
 	
 	public void populate() {

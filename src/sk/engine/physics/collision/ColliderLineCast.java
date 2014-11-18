@@ -10,17 +10,27 @@ public class ColliderLineCast extends Collider {
 	}
 	
 	public void update(double tick) {
-		for(int i = 0; i < relativePoints.length; i++) {
-			points[i].multiply(transform);
-		}
+		
 	}
 	
 	public boolean isColliding(Collider c) {
 		int intersections = 0;
 		//isColliding = false
+		
+		Vector4f[] internalPoints = this.points.clone();
+		Vector4f[] externalPoints = c.points.clone();
+		
+		
+		//TODO: We might want to remove the following two for loops for speed enhancement
+		for(Vector4f vec4 : internalPoints)
+			vec4.multiply(transform);
+		
+		for(Vector4f vec4 : externalPoints)
+			vec4.multiply(c.transform);
+		
 		for(int i = 0; i < points.length; i++) {
 			for(int j = 0; j < c.length; j++) {
-				intersections += rayCastCheck(c.getPoints()[j], c.getPoints()[(j + 1) % c.length], points[i]);
+				intersections += rayCastCheck(externalPoints[j], externalPoints[(j + 1) % c.length], internalPoints[i]);
 			}
 		}
 		//isColliding = isOdd(intersections);
