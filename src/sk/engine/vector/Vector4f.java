@@ -14,6 +14,34 @@ public class Vector4f {
 		this(0, 0, 0, 0);
 	}
 	
+	public Vector4f(Vector4f vec4) {
+		this(vec4.x, vec4.y, vec4.z, vec4.w);
+	}
+	
+	public Vector4f(Vector2f vec2_1, Vector2f vec2_2) {
+		this(vec2_1.x, vec2_1.y, vec2_2.x, vec2_2.y);
+	}
+	
+	public Vector4f(Vector2f vec2) {
+		this(vec2.x, vec2.y);
+	}
+	
+	public Vector4f(Vector3f vec3) {
+		this(vec3.x, vec3.y, vec3.z);
+	}
+	
+	public Vector4f(float x) {
+		this(x, 0);
+	}
+	
+	public Vector4f(float x, float y) {
+		this(x, y, 0);
+	}
+	
+	public Vector4f(float x, float y, float z) {
+		this(x, y, z, 0);
+	}
+	
 	public Vector4f(float x, float y, float z, float w) {
 		this.x = x;
 		this.y = y;

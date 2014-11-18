@@ -12,6 +12,26 @@ public class Vector3f {
 		this(0, 0, 0);
 	}
 	
+	public Vector3f(Vector3f vec3) {
+		this(vec3.x, vec3.y, vec3.y);
+	}
+	
+	public Vector3f(Vector2f vec2, float z) {
+		this(vec2.x, vec2.y, z);
+	}
+	
+	public Vector3f(Vector2f vec2) {
+		this(vec2.x, vec2.y);
+	}
+	
+	public Vector3f(float x) {
+		this(x, 0);
+	}
+	
+	public Vector3f(float x, float y) {
+		this(x, y, 0);
+	}
+	
 	public Vector3f(float x, float y, float z) {
 		this.x = x;
 		this.y = y;

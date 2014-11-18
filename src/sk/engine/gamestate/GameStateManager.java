@@ -1,10 +1,6 @@
 package sk.engine.gamestate;
 
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-
 import java.util.HashMap;
-
-import org.lwjgl.opengl.Display;
 
 import sk.engine.core.Core;
 import sk.engine.graphics.Window;
