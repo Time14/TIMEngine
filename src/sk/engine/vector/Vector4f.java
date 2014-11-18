@@ -1,5 +1,7 @@
 package sk.engine.vector;
 
+import sk.engine.graphics.entity.Transform;
+
 public class Vector4f {
 	
 	public static final int LENGTH = 4;
@@ -17,6 +19,17 @@ public class Vector4f {
 		this.y = y;
 		this.z = z;
 		this.w = w;
+	}
+	
+	public Vector4f multiply(Transform transform) {
+		Matrix4f mat4 = transform.getMatrix();
+		
+		x = x * mat4.matrix[0 * 4 + 0] + y * mat4.matrix[0 * 4 + 1] + z * mat4.matrix[0 * 4 + 2] + w * mat4.matrix[0 * 4 + 3];
+		y = x * mat4.matrix[1 * 4 + 0] + y * mat4.matrix[1 * 4 + 1] + z * mat4.matrix[1 * 4 + 2] + w * mat4.matrix[1 * 4 + 3];
+		z = x * mat4.matrix[2 * 4 + 0] + y * mat4.matrix[2 * 4 + 1] + z * mat4.matrix[2 * 4 + 2] + w * mat4.matrix[2 * 4 + 3];
+		w = x * mat4.matrix[3 * 4 + 0] + y * mat4.matrix[3 * 4 + 1] + z * mat4.matrix[3 * 4 + 2] + w * mat4.matrix[3 * 4 + 3];
+		
+		return this;
 	}
 	
 	public float getLength() {

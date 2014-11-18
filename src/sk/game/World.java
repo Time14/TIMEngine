@@ -45,9 +45,8 @@ public class World {
 		
 		slerp.update(Time.getDelta());
 		
-		coins.get(0).getTransform().getPosition().x += slerp.getSlerp() / 100;
-//		for(Coin c : coins)
-//			c.update();
+		
+		
 		for(Ball b : balls) {
 			b.update();
 			if(b.getTransform().getPosition().x > Window.getWidth() || b.getTransform().getPosition().x < 0

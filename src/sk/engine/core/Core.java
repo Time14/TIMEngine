@@ -2,6 +2,7 @@ package sk.engine.core;
 
 import sk.engine.gamestate.GameStateManager;
 import sk.engine.graphics.Window;
+import sk.engine.physics.PhysicsEngine;
 
 /**
  * 

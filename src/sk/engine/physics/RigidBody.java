@@ -2,6 +2,7 @@ package sk.engine.physics;
 
 import java.util.ArrayList;
 
+import sk.engine.graphics.entity.Transform;
 import sk.engine.physics.collision.Collider;
 import sk.engine.vector.Vector2f;
 
@@ -10,6 +11,8 @@ public class RigidBody {
 	private PhysicsEngine pe;
 	
 	private ArrayList<Collider> colliders;
+	
+	private Transform transform;
 	
 	private Vector2f direction;
 	
@@ -27,7 +30,9 @@ public class RigidBody {
 	}
 	
 	public void update() {
-		
+		for(Collider c : colliders) {
+			c.sendTransform(transform);
+		}
 	}
 	
 	public RigidBody addColliders(Collider... colliders) {
@@ -36,37 +41,43 @@ public class RigidBody {
 		
 		return this;
 	}
+	
+	public RigidBody addTransform(Transform transform) {
+		this.transform = transform;
+		
+		return this;
+	}
 
 	public Vector2f getDirection() {
 		return direction;
 	}
-
+	
 	public RigidBody setDirection(Vector2f direction) {
 		this.direction = direction;
 		
 		return this;
 	}
-
+	
 	public float getMagnitude() {
 		return magnitude;
 	}
-
+	
 	public RigidBody setMagnitude(float magnitude) {
 		this.magnitude = magnitude;
 		
 		return this;
 	}
-
+	
 	public float getMass() {
 		return mass;
 	}
-
+	
 	public RigidBody setMass(float mass) {
 		this.mass = mass;
 		
 		return this;
 	}
-
+	
 	public ArrayList<Collider> getColliders() {
 		return colliders;
 	}
