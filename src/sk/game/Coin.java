@@ -21,10 +21,6 @@ public class Coin extends Entity {
 		super(new MeshQuad(true, 0, 0, 32, 32), OrthographicalShaderProgram.INSTACE, new Transform(new Vector3f(x, y, 0)));
 		texture = new DynamicTexture(new SpriteSheet(9, 1, 32, 32).loadTexture("texture/terrain/coin.png"));
 		animation = new AnimationLinear(texture, .1);
-		rigidBody.addColliders(	Vector4f(x, y),
-								Vector4f(x + 32.0f, y),
-								Vector4f(x + 32.0f, y + 32.0f),
-								Vector4f(x, y + 32.0f));
 	}
 
 	public void update() {
