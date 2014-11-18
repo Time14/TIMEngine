@@ -17,12 +17,13 @@ public class ColliderLineCast extends Collider {
 	
 	public boolean isColliding(Collider c) {
 		int intersections = 0;
+		//isColliding = false
 		for(int i = 0; i < points.length; i++) {
 			for(int j = 0; j < c.length; j++) {
 				intersections += rayCastCheck(c.getPoints()[j], c.getPoints()[(j + 1) % c.length], points[i]);
 			}
 		}
-		
+		//isColliding = isOdd(intersections);
 		return isOdd(intersections);
 	}
 	
