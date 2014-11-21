@@ -44,6 +44,18 @@ public abstract class Entity {
 		return alive;
 	}
 	
+	public RigidBody getRigidBody() {
+		return rigidBody;
+	}
+	
+	public Mesh getMesh() {
+		return mesh;
+	}
+	
+	public DynamicTexture getTexture() {
+		return texture;
+	}
+	
 	public void kill() {
 		alive = false;
 	}

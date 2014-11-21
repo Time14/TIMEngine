@@ -52,10 +52,12 @@ public class Vector4f {
 	public Vector4f multiply(Transform transform) {
 		Matrix4f mat4 = transform.getMatrix();
 		
-		x = x * mat4.matrix[0 * 4 + 0] + y * mat4.matrix[0 * 4 + 1] + z * mat4.matrix[0 * 4 + 2] + w * mat4.matrix[0 * 4 + 3];
-		y = x * mat4.matrix[1 * 4 + 0] + y * mat4.matrix[1 * 4 + 1] + z * mat4.matrix[1 * 4 + 2] + w * mat4.matrix[1 * 4 + 3];
-		z = x * mat4.matrix[2 * 4 + 0] + y * mat4.matrix[2 * 4 + 1] + z * mat4.matrix[2 * 4 + 2] + w * mat4.matrix[2 * 4 + 3];
-		w = x * mat4.matrix[3 * 4 + 0] + y * mat4.matrix[3 * 4 + 1] + z * mat4.matrix[3 * 4 + 2] + w * mat4.matrix[3 * 4 + 3];
+		Vector4f vec4 = new Vector4f(this);
+		
+		x = vec4.x * mat4.matrix[0 * 4 + 1] + vec4.y * mat4.matrix[1 * 4 + 0] + vec4.z * mat4.matrix[2 * 4 + 0] + vec4.w * mat4.matrix[3 * 4 + 0];
+		y = vec4.x * mat4.matrix[0 * 4 + 2] + vec4.y * mat4.matrix[1 * 4 + 1] + vec4.z * mat4.matrix[2 * 4 + 1] + vec4.w * mat4.matrix[3 * 4 + 1];
+		z = vec4.x * mat4.matrix[0 * 4 + 3] + vec4.y * mat4.matrix[1 * 4 + 2] + vec4.z * mat4.matrix[2 * 4 + 2] + vec4.w * mat4.matrix[3 * 4 + 2];
+		w = vec4.x * mat4.matrix[0 * 4 + 4] + vec4.y * mat4.matrix[1 * 4 + 3] + vec4.z * mat4.matrix[2 * 4 + 3] + vec4.w * mat4.matrix[3 * 4 + 3];
 		
 		return this;
 	}
@@ -77,4 +79,7 @@ public class Vector4f {
 		return new float[]{x, y, z, w};
 	}
 	
+	public static final Vector4f multiply(Vector4f vec4, Transform transform) {
+		return new Vector4f(vec4).multiply(transform);
+	}
 }

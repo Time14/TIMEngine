@@ -9,6 +9,10 @@ public class DynamicTexture {
 	
 	public DynamicTexture() {}
 	
+	public DynamicTexture(Texture texture) {
+		this(new SpriteSheet(1, 1, texture.getWidth(), texture.getHeight()).setTexture(texture, 0, 0));
+	}
+	
 	public DynamicTexture(SpriteSheet sprites) {
 		this.sprites = sprites;
 		currentSpriteX = 0;

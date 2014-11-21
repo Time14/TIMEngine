@@ -22,8 +22,7 @@ public class RigidBody {
 	
 	private boolean alive;
 	
-	public RigidBody(PhysicsEngine pe) {
-		this.pe = pe;
+	public RigidBody() {
 		direction = new Vector2f();
 		colliders = new ArrayList<>();
 		alive = true;
@@ -31,6 +30,15 @@ public class RigidBody {
 	
 	public void update() {
 		
+	}
+	
+	public boolean isColliding(RigidBody rb) {
+		for(Collider c : colliders)
+			for(Collider c2 : rb.colliders)
+				if(c.isColliding(c2))
+					return true;
+		
+		return false;
 	}
 	
 	public RigidBody addColliders(Collider... colliders) {
@@ -85,6 +93,10 @@ public class RigidBody {
 	
 	public boolean hasMagnitude() {
 		return magnitude > 0;
+	}
+	
+	public Transform getTransform() {
+		return transform;
 	}
 	
 	public void kill() {

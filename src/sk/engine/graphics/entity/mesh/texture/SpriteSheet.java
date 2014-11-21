@@ -31,10 +31,10 @@ public class SpriteSheet {
 		this.spritesY = spritesY;
 		this.frameWidth = frameWidth;
 		this.frameHeight = frameHeight;
+		textures = new Texture[spritesY][spritesX];
 	}
 	
 	public SpriteSheet loadTexture(String path) {
-		textures = new Texture[spritesY][spritesX];
 		
 		try {
 			BufferedImage image = ResourceLoader.loadTexture(path);
@@ -74,6 +74,12 @@ public class SpriteSheet {
 	
 	public void bind(int tileX, int tileY, int target) {
 		textures[tileY][tileX].bind(target);
+	}
+	
+	public SpriteSheet setTexture(Texture texture, int x, int y) {
+		textures[y][x] = texture;
+		
+		return this;
 	}
 	
 	public Texture getTexture(int tileX, int tileY) {
