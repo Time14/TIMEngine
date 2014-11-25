@@ -53,7 +53,7 @@ public class Vector4f {
 		Matrix4f mat4 = transform.getMatrix();
 		
 		Vector4f vec4 = new Vector4f(this);
-		//I keept the old Sporre code
+		//I kept the old Sporre code
 		x = vec4.x * mat4.matrix[0 * 4 + 0/*1*/] + vec4.y * mat4.matrix[1 * 4 + 0] + vec4.z * mat4.matrix[2 * 4 + 0] + vec4.w * mat4.matrix[3 * 4 + 0];
 		y = vec4.x * mat4.matrix[0 * 4 + 1/*2*/] + vec4.y * mat4.matrix[1 * 4 + 1] + vec4.z * mat4.matrix[2 * 4 + 1] + vec4.w * mat4.matrix[3 * 4 + 1];
 		z = vec4.x * mat4.matrix[0 * 4 + 2/*3*/] + vec4.y * mat4.matrix[1 * 4 + 2] + vec4.z * mat4.matrix[2 * 4 + 2] + vec4.w * mat4.matrix[3 * 4 + 2];
