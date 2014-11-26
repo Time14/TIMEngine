@@ -42,12 +42,13 @@ public class ColliderLineCast extends Collider {
 			k = Double.MIN_VALUE;
 		}
 //		Don't know if this is needed... (Infinity checks)
+		/*
 		else if(k == Double.POSITIVE_INFINITY) {
 			k = 10000000;
 		}
 		else if(k ==  Double.NEGATIVE_INFINITY) {
 			k = -10000000;
-		}
+		}*/
 		System.out.println(k);
 		if((pointToTest.y - m) / k > pointToTest.x ) {
 			return 1;
