@@ -3,11 +3,11 @@ package sk.game;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import sk.engine.core.Time;
 import sk.engine.graphics.Window;
-import sk.engine.io.input.Keyboard;
 import sk.engine.util.graph.Interpolation;
 
 public class World {
@@ -25,8 +25,8 @@ public class World {
 		coins = new ArrayList<>();
 		balls = new ArrayList<>();
 		deadBalls = new ArrayList<>();
-		q1 = new EntityQuad(300, 300, 100, 100);
-		q2 = new EntityQuad(75, 75, 100, 100);
+		q1 = new EntityQuad(300, 300, 0, 100, 100);
+		q2 = new EntityQuad(75, 75, 0, 100, 100);
 	}
 	
 	public void checkKeyboard(int k, boolean p) {
@@ -52,6 +52,11 @@ public class World {
 		
 		q1.update();
 		q2.update();
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_Q))
+			q1.getTransform().rotate((float)Time.getDelta() * 10);
+		if(Keyboard.isKeyDown(Keyboard.KEY_E))
+			q2.getTransform().rotate((float)Time.getDelta() * 10);
 		
 		q2.getTransform().getPosition().x = Mouse.getX();
 		q2.getTransform().getPosition().y = -Mouse.getY() + Window.getHeight();

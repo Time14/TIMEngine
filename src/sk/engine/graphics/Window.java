@@ -51,6 +51,7 @@ public class Window {
 	private void initOpenGL() {
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_DEPTH_TEST);
 	}
 	
 	public void update() {
@@ -62,7 +63,7 @@ public class Window {
 			Display.setTitle(title + " - FPS: " + Time.getFPS());
 		
 		glClearColor(color.x, color.y, color.z, color.w);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	
 	public Window setBackgroundColor(Vector4f color) {

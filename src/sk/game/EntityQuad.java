@@ -14,8 +14,8 @@ import sk.engine.vector.Vector4f;
 
 public class EntityQuad extends Entity {
 	
-	public EntityQuad(float x, float y, float width, float height) {
-		super(new MeshQuad(true, 0, 0, width, height), OrthographicalShaderProgram.INSTACE, new Transform(new Vector3f(x, y, 0)));
+	public EntityQuad(float x, float y, float z, float width, float height) {
+		super(new MeshQuad(true, 0, 0, width, height), OrthographicalShaderProgram.INSTACE, new Transform(new Vector3f(x, y, z)));
 		
 		texture = new DynamicTexture(new SpriteSheet(2, 1, 16, 16).loadTexture("texture/terrain/box.png"));
 		

@@ -77,4 +77,8 @@ public class Mesh {
 	public Vertex[] getVertices() {
 		return vertices;
 	}
+	
+	public void destroy() {
+		glDeleteBuffers(vbo);
+	}
 }
