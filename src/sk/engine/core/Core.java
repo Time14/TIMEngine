@@ -32,6 +32,8 @@ public final class Core {
 		
 		window.create();
 		
+		game.enableDebugFeatures();
+		
 		gsm.initCore(this);
 		
 		running = true;

@@ -12,9 +12,6 @@ public class Game implements SKFramework {
 	public Game() {
 		Core core = new Core(this);
 		
-		Debug.enable(true);
-		Debug.setPointSize(10);
-		
 		Window window = new Window(800, 600, "SK's Platformer").setBackgroundColor(Color.CYAN).showFPS(true);
 		
 		GameStateManager gsm = new GameStateManager();
@@ -25,6 +22,14 @@ public class Game implements SKFramework {
 		gsm.registerState(new StateMenuSecond(gsm));
 		
 		System.exit(core.start());
+	}
+	
+	public void enableDebugFeatures() {
+		Debug.enable(true);
+		Debug.setPointSize(10);
+		Debug.enableLineStipple(false);
+		Debug.setLineStipple(3, (short)100);
+		Debug.setLineWidth(5);
 	}
 	
 	public static final void main(String[] args) {

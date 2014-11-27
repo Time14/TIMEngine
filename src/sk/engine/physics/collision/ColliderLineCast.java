@@ -30,6 +30,7 @@ public class ColliderLineCast extends Collider {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	
