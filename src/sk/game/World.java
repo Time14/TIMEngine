@@ -7,8 +7,12 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import sk.engine.core.Time;
+import sk.engine.debug.Debug;
+import sk.engine.graphics.Color;
 import sk.engine.graphics.Window;
 import sk.engine.util.graph.Interpolation;
+import sk.engine.vector.Vector2f;
+import sk.engine.vector.Vector4f;
 
 public class World {
 	

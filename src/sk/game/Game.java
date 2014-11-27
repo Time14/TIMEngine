@@ -2,6 +2,7 @@ package sk.game;
 
 import sk.engine.core.Core;
 import sk.engine.core.SKFramework;
+import sk.engine.debug.Debug;
 import sk.engine.gamestate.GameStateManager;
 import sk.engine.graphics.Color;
 import sk.engine.graphics.Window;
@@ -10,6 +11,9 @@ public class Game implements SKFramework {
 	
 	public Game() {
 		Core core = new Core(this);
+		
+		Debug.enable(true);
+		Debug.setPointSize(10);
 		
 		Window window = new Window(800, 600, "SK's Platformer").setBackgroundColor(Color.CYAN).showFPS(true);
 		

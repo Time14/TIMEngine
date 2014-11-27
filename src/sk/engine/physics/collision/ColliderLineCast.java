@@ -41,7 +41,9 @@ public class ColliderLineCast extends Collider {
 		double k = deltaY / deltaX;
 		double m = point1.y - (k * point1.x);
 //		Error correction if the slope is 0 or infinity
-		Debug.drawPoint(new Vector2f(1, 1),  new Color(0xFF00FFFF, Color.FORMAT_ABGR));
+		
+		Debug.drawPoint(new Vector2f(point1.x, point1.y),  new Color(new Vector4f(0, 1, 0, 1)));
+		
 		if(k == 0) {
 			k = 0.000000001f;
 		}

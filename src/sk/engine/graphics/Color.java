@@ -20,6 +20,14 @@ public class Color {
 	
 	private String format;
 	
+	public Color(int color) {
+		this(color, FORMAT_RGBA, FORMAT_ABGR);
+	}
+	
+	public Color(Vector4f color) {
+		this(vec4ToInt(color), FORMAT_RGBA, FORMAT_ABGR);
+	}
+	
 	public Color(int color, String format) {
 		value = color;
 		this.format = format;
@@ -33,7 +41,7 @@ public class Color {
 	public Color(Vector4f color, String format) {
 		this.format = format;
 		
-		value = (byte)(color.x * 255) << 24 | (byte)(color.y * 255) << 16 | (byte)(color.z * 255) << 8 | (byte)(color.w * 255);
+		value = vec4ToInt(color);
 	}
 	
 	public Color(Vector4f color, String in, String out) {
@@ -69,6 +77,10 @@ public class Color {
 	
 	public String toString() {
 		return Integer.toHexString(value);
+	}
+	
+	public static final int vec4ToInt(Vector4f color) {
+		return (int)(color.x * 255) << 24 | (int)(color.y * 255) << 16 | (int)(color.z * 255) << 8 | (int)(color.w * 255);
 	}
 	
 	public static final int convert(int color, String in, String out) {
