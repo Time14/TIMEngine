@@ -7,6 +7,7 @@ import org.lwjgl.input.Mouse;
 
 import sk.engine.core.Time;
 import sk.engine.graphics.Window;
+import sk.engine.io.input.Keyboard;
 import sk.engine.util.graph.Interpolation;
 
 public class World {
@@ -54,6 +55,14 @@ public class World {
 		
 		q2.getTransform().getPosition().x = Mouse.getX();
 		q2.getTransform().getPosition().y = -Mouse.getY() + Window.getHeight();
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
+			q1.getTransform().rotate((float)Time.getDelta() * 100);
+		}
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_E)) {
+			q2.getTransform().rotate((float)Time.getDelta() * 100);
+		}
 		
 		if(q2.getRigidBody().isColliding(q1.getRigidBody())){
 			if(q1.getTexture().getSpriteX() == 0) {

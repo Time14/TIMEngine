@@ -1,5 +1,8 @@
 package sk.engine.physics.collision;
 
+import sk.engine.debug.Debug;
+import sk.engine.graphics.Color;
+import sk.engine.vector.Vector2f;
 import sk.engine.vector.Vector4f;
 
 public class ColliderLineCast extends Collider {
@@ -34,24 +37,23 @@ public class ColliderLineCast extends Collider {
 		
 		double deltaX = point1.x - point2.x;
 		double deltaY = point1.y - point2.y;
-		
+		double xCord = 0;
 		double k = deltaY / deltaX;
 		double m = point1.y - (k * point1.x);
 //		Error correction if the slope is 0 or infinity
+		Debug.drawPoint(new Vector2f(point1.x, point1.y),  new Color(new Vector4f(0, 1, 0), "RGBA", "BGRA"));
 		if(k == 0) {
-			k = Double.MIN_VALUE;
+			k = 0.000000001f;
 		}
-//		Don't know if this is needed... (Infinity checks)
-		/*
-		else if(k == Double.POSITIVE_INFINITY) {
-			k = 10000000;
-		}
-		else if(k ==  Double.NEGATIVE_INFINITY) {
-			k = -10000000;
-		}*/
-		System.out.println(k);
+		xCord = (pointToTest.y - m) / k;
 		if((pointToTest.y - m) / k > pointToTest.x ) {
-			return 1;
+			System.out.println(xCord);
+			if(point1.x < point2.x) {
+				return (xCord > point1.x && xCord < point2.x) ? 1:0;
+			}
+			else {
+				return (xCord > point2.x && xCord < point2.x) ? 1:0;
+			}
 		}
 		return 0;
 	}

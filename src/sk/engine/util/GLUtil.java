@@ -8,6 +8,7 @@ public final class GLUtil {
 	public static final int TRIANGLES = GL_TRIANGLES;
 	public static final int LINES = GL_LINES;
 	public static final int TRIANGLE_STRIP = GL_TRIANGLE_STRIP;
+	public static final int POINTS = GL_POINTS;
 	
 	public static final int REPEAT = GL_REPEAT;
 	public static final int CLAMP = GL_CLAMP;
