@@ -9,6 +9,6 @@ import sk.engine.vector.Vector3f;
 public class MeshPoint extends Mesh {
 	
 	public MeshPoint(float x, float y, float z) {
-		addVertices(GLUtil.POINTS, new Vertex2D[]{new Vertex2D(new Vector3f(x, y, z), new Vector2f(0, 0))});
+		addVertices(GLUtil.POINTS, new Vertex2D[]{new Vertex2D(new Vector3f(x, y, z), new Vector2f(.25f, .25f))});
 	}
 }

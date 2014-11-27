@@ -13,7 +13,7 @@ public class Debug {
 	public static void drawPoint(Vector2f point, Color color) {
 		Texture t = new Texture().loadTexture(new int[]{color.value}, 1, 1);
 		t.bind(0);
-		Mesh m = new MeshPoint(point.x, point.y, .5f);
+		Mesh m = new MeshPoint(point.x, point.y, -1f);
 		m.draw();
 		t.destroy();
 		m.destroy();
