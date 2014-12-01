@@ -1,5 +1,7 @@
 package sk.engine.physics.collision;
 
+import java.awt.Window;
+
 import sk.engine.debug.Debug;
 import sk.engine.graphics.Color;
 import sk.engine.vector.Vector2f;
@@ -43,16 +45,26 @@ public class ColliderLineCast extends Collider {
 		double m = point1.y - (k * point1.x);
 //		Error correction if the slope is 0 or infinity
 		if(k == 0) {
-			k = 0.000000001f;
+			return 0;
+		}
+		if(k == Double.POSITIVE_INFINITY || k == -Double.POSITIVE_INFINITY) {
+			if(point1.y < point2.y){
+				return (point1.y < pointToTest.y && point2.y > pointToTest.y 
+						&& point1.x > pointToTest.x) ?0:1;
+			}
+			else {
+				return (point2.y < pointToTest.y && point1.y > pointToTest.y 
+						&& point1.x > pointToTest.x) ?0:1;
+			}
 		}
 		xCord = (pointToTest.y - m) / k;
+		Debug.drawLine(new Vector2f(point1.x, point1.y), new Vector2f((float)xCord, pointToTest.y), new Color(new Vector4f(1,1,0,1)));
 		if(xCord > pointToTest.x) {
 			if(point1.x > point2.x) {
 				Debug.drawPoint(new Vector2f((float)xCord, pointToTest.y), new Color(new Vector4f(1,0,0,1), "ABGR"));
 				return (point1.x > xCord && point2.x < xCord) ?1:0;
 			}
 			else {
-				Debug.drawPoint(new Vector2f((float)xCord, pointToTest.y), new Color(new Vector4f(1,1,0,1), "ABGR"));
 				return (point2.x > xCord && point1.x < xCord) ?1:0;
 			}
 		}
