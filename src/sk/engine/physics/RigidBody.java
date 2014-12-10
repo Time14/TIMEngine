@@ -16,6 +16,8 @@ public class RigidBody {
 	
 	private Vector2f direction;
 	
+	private float torque;
+	
 	private float magnitude;
 	
 	private float mass;
@@ -56,7 +58,19 @@ public class RigidBody {
 		
 		return this;
 	}
-
+	public Vector2f getForce() {
+		return new Vector2f(direction.x * mass * magnitude, direction.y * mass * magnitude);
+	}
+	
+	public float getTorque() {
+		return torque;
+	}
+	public RigidBody  setTorque(float newTorque) {
+		torque = newTorque;
+		
+		return this;
+	}
+	
 	public Vector2f getDirection() {
 		return direction;
 	}

@@ -39,4 +39,12 @@ public class PhysicsEngine {
 		return this;
 	}
 	
+	public RigidBody getRigidBody(int i) {
+		return bodies.get(i);
+	}
+	
+	public int getRigidBodyIndex(RigidBody rb) {
+		return bodies.indexOf(rb);
+	}
+	
 }

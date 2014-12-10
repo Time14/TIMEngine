@@ -58,10 +58,10 @@ public class ColliderLineCast extends Collider {
 			}
 		}
 		xCord = (pointToTest.y - m) / k;
-		Debug.drawLine(new Vector2f(point1.x, point1.y), new Vector2f((float)xCord, pointToTest.y), new Color(new Vector4f(1,1,0,1)));
+		//Debug.drawLine(new Vector2f(point1.x, point1.y), new Vector2f((float)xCord, pointToTest.y), new Color(new Vector4f(1,1,0,1)));
 		if(xCord > pointToTest.x) {
 			if(point1.x > point2.x) {
-				Debug.drawPoint(new Vector2f((float)xCord, pointToTest.y), new Color(new Vector4f(1,0,0,1), "ABGR"));
+				//Debug.drawPoint(new Vector2f((float)xCord, pointToTest.y), new Color(new Vector4f(1,0,0,1), "ABGR"));
 				return (point1.x > xCord && point2.x < xCord) ?1:0;
 			}
 			else {
