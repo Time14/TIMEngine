@@ -1,5 +1,6 @@
 package sk.engine.core;
 
+import sk.engine.audio.AudioManager;
 import sk.engine.gamestate.GameStateManager;
 import sk.engine.graphics.Window;
 import sk.engine.physics.PhysicsEngine;
@@ -21,6 +22,9 @@ public final class Core {
 	
 	private Window window;
 	
+	private AudioManager am;
+	private Thread audioThread; 
+	
 	private static boolean running;
 	
 	public Core(SKFramework game) {
@@ -36,6 +40,12 @@ public final class Core {
 		
 		gsm.initCore(this);
 		
+		am = new AudioManager(gsm);
+		
+		audioThread = new Thread(am, "AudioManager");
+		
+		audioThread.start();
+		
 		running = true;
 		
 		while(!window.isCloseRequested() && running) {
@@ -43,6 +53,8 @@ public final class Core {
 			gsm.update();
 			window.update();
 		}
+		
+		cleanUp();
 		
 		return error;
 	}
@@ -53,6 +65,10 @@ public final class Core {
 		window.destroy();
 	}
 	
+	private void cleanUp() {
+		am.setDead(true);
+	}
+	
 	public void addComponents(Window window, GameStateManager gsm) {
 		this.window = window;
 		this.gsm = gsm;
@@ -60,6 +76,10 @@ public final class Core {
 	
 	public Window getWindow() {
 		return window;
+	}
+	
+	public SKFramework getGame() {
+		return game;
 	}
 	
 	public static final void crash(int error) {

@@ -63,4 +63,8 @@ public class GameStateManager {
 	public Window getWindow() {
 		return core.getWindow();
 	}
+	
+	public Core getCore() {
+		return core;
+	}
 }
