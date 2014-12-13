@@ -10,7 +10,7 @@ import sk.engine.physics.PhysicsEngine;
  * The Time Engine is an engine designed to benefit the needs for "Time: The Game"
  * 
  * @version v1.0
- * @author Alfred Sporre & Assistant Edvard Thörnros
+ * @author Alfred Sporre & Edvard Thörnros
  */
 public final class Core {
 	
