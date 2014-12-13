@@ -43,6 +43,7 @@ public class Game implements SKFramework {
 	public void registerAudio() {
 		AudioManager.registerAudio("Repeatedly", "audio/music/repeatedly.wav");
 		AudioManager.registerAudio("Mornings", "audio/music/The_Moments_of_Our_Mornings.wav");
+		AudioManager.registerAudio("Jump", "audio/sfx/Jump.wav");
 	}
 	
 	public static final void main(String[] args) {

@@ -13,6 +13,8 @@ import static org.lwjgl.openal.AL10.*;
 
 public class AudioManager implements Runnable {
 	
+	public static final float LOOPS_PER_SECOND = 10;
+	
 	private static final HashMap<String, AudioClip> audioClips = new HashMap<>();
 	
 	private ArrayList<String> audioQueue;
@@ -54,27 +56,35 @@ public class AudioManager implements Runnable {
 	
 	private void update() {
 		if(audioQueue.size() > 0) {
-			for(String audio : audioQueue) {
-				String[] data = audio.split("\\|");
-				if(data.length == 3) {
-					playSound(data[0], Float.parseFloat(data[1]), Float.parseFloat(data[2]));
-				} else if(data.length == 4) {
-					loopSound(data[0], Integer.parseInt(data[1]), Float.parseFloat(data[2]), Float.parseFloat(data[3]));
-				} else if(data.length == 2) {
-					switch(data[0]) {
-					case "stop":
-						stopLoopSound(Integer.parseInt(data[1]));
-						break;
-					case "pause":
-						pauseLoopSound(Integer.parseInt(data[1]));
-						break;
-					case "play":
-						playLoopSound(Integer.parseInt(data[1]));
-						break;
-					}
+			while(true) {
+				String[] data = audioQueue.remove(0).split("\\|");
+				switch(data[0]) {
+				case "qa":
+					playSound(data[1], Float.parseFloat(data[2]), Float.parseFloat(data[3]));
+					break;
+				case "qla":
+					loopSound(data[1], Integer.parseInt(data[2]), Float.parseFloat(data[3]), Float.parseFloat(data[4]), Integer.parseInt(data[5]));
+					break;
+				case "stop":
+					stopLoopSound(Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+					break;
+				case "pause":
+					pauseLoopSound(Integer.parseInt(data[1]), Integer.parseInt(data[2]));
+					break;
+				case "play":
+					playLoopSound(Integer.parseInt(data[1]), Float.parseFloat(data[2]), Integer.parseInt(data[3]));
+					break;
 				}
+				
+				if(audioQueue.size() == 0)
+					break;
 			}
 			audioQueue.clear();
+		}
+		try {
+			Thread.sleep((long)(1000 / LOOPS_PER_SECOND));
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -100,19 +110,48 @@ public class AudioManager implements Runnable {
 		alSourcePlay(sources.get(index));
 	}
 	
-	private void stopLoopSound(int source) {
+	private void fadeLoopSound(int source, float target, int millis) {
+		if(millis == 0)
+			alSourcef(loopSources.get(source), AL_GAIN, target);
+		
+		float gain = alGetSourcef(loopSources.get(source), AL_GAIN);
+		
+		float delta = (gain - target) / (millis / (1000 / LOOPS_PER_SECOND)) ;
+		
+		if(delta == 0)
+			return;
+		
+		for(int i = 0; i < (delta > 0 ? 1 / delta : -1 / delta); i++) {
+			gain -= delta;
+			if(gain > 0 && gain < delta)
+				gain = 0;
+			System.out.println(gain);
+			alSourcef(loopSources.get(source), AL_GAIN, gain);
+			try {
+				Thread.sleep((long)(1000 / LOOPS_PER_SECOND));
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void stopLoopSound(int source, int millis) {
+		fadeLoopSound(source, 0, millis);
 		alSourceStop(loopSources.get(source));
 	}
 	
-	private void pauseLoopSound(int source) {
+	private void pauseLoopSound(int source, int millis) {
+		
+		fadeLoopSound(source, 0, millis);
 		alSourcePause(loopSources.get(source));
 	}
 	
-	private void playLoopSound(int source) {
+	private void playLoopSound(int source, float target, int millis) {
 		alSourcePlay(loopSources.get(source));
+		fadeLoopSound(source, target, millis);
 	}
 	
-	private void loopSound(String key, int source, float pitch, float gain) {
+	private void loopSound(String key, int source, float pitch, float gain, int millis) {
 		if(source >= loopSources.capacity()) {
 			throw new IndexOutOfBoundsException("Loop source must be between 0-" + (loopSources.capacity()-1));
 		}
@@ -122,40 +161,40 @@ public class AudioManager implements Runnable {
 		
 		alSourcei(loopSources.get(source), AL_BUFFER, audioClips.get(key).getID());
 		alSourcef(loopSources.get(source), AL_PITCH, pitch);
-		alSourcef(loopSources.get(source), AL_GAIN, gain);
+		alSourcef(loopSources.get(source), AL_GAIN, 0);
 		alSource(loopSources.get(source), AL_POSITION, BufferUtil.toFloatBuffer(new float[]{0, 0, 0}));
 		alSource(loopSources.get(source), AL_VELOCITY, BufferUtil.toFloatBuffer(new float[]{0, 0, 0}));
 		alSourcei(loopSources.get(source), AL_LOOPING, AL_TRUE);
-		alSourcePlay(loopSources.get(source));
+		playLoopSound(source, gain, millis);
 	}
 	
-	public synchronized void playLoopAudio(int source) {
+	public synchronized void playLoopAudio(int source, float target, int millis) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("play").append("|").append(source);
+		sb.append("play|").append(source).append("|").append(target).append("|").append(millis);
 		audioQueue.add(sb.toString());
 	}
 	
-	public synchronized void pauseLoopAudio(int source) {
+	public synchronized void pauseLoopAudio(int source, int millis) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("pause").append("|").append(source);
+		sb.append("pause|").append(source).append("|").append(millis);
 		audioQueue.add(sb.toString());
 	}
 	
-	public synchronized void stopLoopAudio(int source) {
+	public synchronized void stopLoopAudio(int source, int millis) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("stop").append("|").append(source);
+		sb.append("stop|").append(source).append("|").append(millis);
 		audioQueue.add(sb.toString());
 	}
 	
-	public synchronized void queueLoopAudio(String key, int source, float pitch, float gain) {
+	public synchronized void queueLoopAudio(String key, int source, float pitch, float gain, int millis) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(key).append("|").append(source).append("|").append(pitch).append("|").append(gain);
+		sb.append("qla|").append(key).append("|").append(source).append("|").append(pitch).append("|").append(gain).append("|").append(millis);
 		audioQueue.add(sb.toString());
 	}
 	
 	public synchronized void queueAudio(String key, float pitch, float gain) {
 		StringBuilder sb = new StringBuilder();
-		sb.append(key).append("|").append(pitch).append("|").append(gain);
+		sb.append("qa|").append(key).append("|").append(pitch).append("|").append(gain);
 		audioQueue.add(sb.toString());
 	}
 	

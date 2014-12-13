@@ -23,7 +23,7 @@ public final class Core {
 	private Window window;
 	
 	private AudioManager am;
-	private Thread audioThread; 
+	private Thread audioThread;
 	
 	private static boolean running;
 	

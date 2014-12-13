@@ -35,20 +35,21 @@ public class StateMenuMain extends GameState {
 	public void checkKeyboard(int k, boolean p) {
 		world.checkKeyboard(k, p);
 		if(k == Keyboard.KEY_1 && p) {
-			gsm.getCore().getAudioManager().queueLoopAudio("Repeatedly", 0, 1, 1);
+			gsm.getCore().getAudioManager().queueLoopAudio("Repeatedly", 0, 1, 1, 10000);
 		} else if(k == Keyboard.KEY_2 && p) {
-			gsm.getCore().getAudioManager().queueLoopAudio("Mornings", 0, 1, 1);
+			gsm.getCore().getAudioManager().queueLoopAudio("Mornings", 0, 1, 1, 0);
 		} else if(k == Keyboard.KEY_P && p) {
-			gsm.getCore().getAudioManager().pauseLoopAudio(0);
+			gsm.getCore().getAudioManager().pauseLoopAudio(0, 10000);
 		} else if(k == Keyboard.KEY_P && !p) {
-			gsm.getCore().getAudioManager().playLoopAudio(0);
+			gsm.getCore().getAudioManager().playLoopAudio(0, 1, 10000);
 		} else if(k == Keyboard.KEY_O && p) {
-			gsm.getCore().getAudioManager().stopLoopAudio(0);
+			gsm.getCore().getAudioManager().stopLoopAudio(0, 10000);
 		}
 	}
 	
 	public void update() {
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
+			gsm.getCore().getAudioManager().queueAudio("Jump", 4, 1);
 			world.addBall(new Ball(player.getX(), player.getY(), 10, 10, player.getTransform().getRotation(), 1));
 		}
 		world.update();
