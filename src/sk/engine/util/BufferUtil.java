@@ -10,6 +10,22 @@ import sk.engine.graphics.entity.mesh.vertex.Vertex;
 
 public final class BufferUtil {
 	
+	public static final int getIntFromByteBuffer(ByteBuffer buffer, int offset, int size) {
+		int data = 0x00000000;
+		
+		if(size > Integer.SIZE / 8) {
+			throw new IndexOutOfBoundsException("Integer size is limited to " + Integer.SIZE / 8 + " bytes");
+		}
+		
+		buffer.rewind();
+		
+		for(int i = 0; i < size; i++) {
+			data = data | (((int)buffer.get(offset + i)) & 0xFF) << i * 8;
+		}
+		
+		return data;
+	}
+	
 	public static final FloatBuffer toFloatBuffer(Vertex[] vertices) {
 		FloatBuffer buffer = BufferUtils.createFloatBuffer(vertices.length * vertices[0].getLength());
 		

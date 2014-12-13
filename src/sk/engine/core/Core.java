@@ -10,7 +10,7 @@ import sk.engine.physics.PhysicsEngine;
  * The Time Engine is an engine designed to benefit the needs for "Time: The Game"
  * 
  * @version v1.0
- * @author Alfred Sporre & Edvard Thörnros
+ * @author Alfred Sporre & Assistant Edvard Thörnros
  */
 public final class Core {
 	
@@ -66,7 +66,8 @@ public final class Core {
 	}
 	
 	private void cleanUp() {
-		am.setDead(true);
+		am.setRunning(false);
+		while(audioThread.isAlive()){}
 	}
 	
 	public void addComponents(Window window, GameStateManager gsm) {
@@ -80,6 +81,10 @@ public final class Core {
 	
 	public SKFramework getGame() {
 		return game;
+	}
+	
+	public AudioManager getAudioManager() {
+		return am;
 	}
 	
 	public static final void crash(int error) {

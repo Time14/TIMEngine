@@ -34,7 +34,17 @@ public class StateMenuMain extends GameState {
 	
 	public void checkKeyboard(int k, boolean p) {
 		world.checkKeyboard(k, p);
-		
+		if(k == Keyboard.KEY_1 && p) {
+			gsm.getCore().getAudioManager().queueLoopAudio("Repeatedly", 0, 1, 1);
+		} else if(k == Keyboard.KEY_2 && p) {
+			gsm.getCore().getAudioManager().queueLoopAudio("Mornings", 0, 1, 1);
+		} else if(k == Keyboard.KEY_P && p) {
+			gsm.getCore().getAudioManager().pauseLoopAudio(0);
+		} else if(k == Keyboard.KEY_P && !p) {
+			gsm.getCore().getAudioManager().playLoopAudio(0);
+		} else if(k == Keyboard.KEY_O && p) {
+			gsm.getCore().getAudioManager().stopLoopAudio(0);
+		}
 	}
 	
 	public void update() {

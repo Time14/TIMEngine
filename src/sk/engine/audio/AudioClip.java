@@ -10,6 +10,12 @@ import sk.engine.util.ResourceLoader;
 public class AudioClip {
 	
 	public static final int WAV_HEADER_SIZE = 44;
+	public static final int WAV_SAMPLE_RATE_OFFSET = 24;
+	public static final int WAV_SAMPLE_RATE_SIZE = 4;
+	public static final int WAV_NUM_CHANNELS_OFFSET = 22;
+	public static final int WAV_NUM_CHANNELS_SIZE = 2;
+	public static final int WAV_BITS_PER_SAMPLE_OFFSET = 34;
+	public static final int WAV_BITS_PER_SAMPLE_SIZE = 2;
 	
 	public static final int FORMAT_STEREO8 = AL_FORMAT_STEREO8;
 	public static final int FORMAT_STEREO16 = AL_FORMAT_STEREO16;
@@ -25,37 +31,43 @@ public class AudioClip {
 	
 	private int format;
 	
-	public AudioClip() {
-		
-	}
+	public AudioClip() {}
 	
-	public void createAudio(String name, String path) {
+	public AudioClip createAudio(String name, String path) {
+		this.name = name;
+		
 		id = alGenBuffers();
-		//this.format = format;
 		
 		try {
 			ByteBuffer buffer = ResourceLoader.loadData(path);
 			
 			//The sample rate/frequency can be found at byte 24
-			freq = (((int)buffer.get(24)) & 0xFF) | (((int)buffer.get(25)) & 0xFF) << 8 | (((int)buffer.get(26)) & 0xFF) << 16 | (((int)buffer.get(27)) & 0xFF) << 24;
+			freq = BufferUtil.getIntFromByteBuffer(buffer, WAV_SAMPLE_RATE_OFFSET, WAV_SAMPLE_RATE_SIZE);
 			
-			numChannels = (((int)buffer.get(22)) & 0xFF) | (((int)buffer.get(23)) & 0xFF) << 8;
+			numChannels = BufferUtil.getIntFromByteBuffer(buffer, WAV_NUM_CHANNELS_OFFSET, WAV_NUM_CHANNELS_SIZE);
 			
-			bitRate = (((int)buffer.get(34)) & 0xFF) | (((int)buffer.get(35)) & 0xFF) << 8;
+			bitRate = BufferUtil.getIntFromByteBuffer(buffer, WAV_BITS_PER_SAMPLE_OFFSET, WAV_BITS_PER_SAMPLE_SIZE);
 			
 			if(bitRate == 8)
 				format = numChannels == 1 ? FORMAT_MONO8 : FORMAT_STEREO8;
 			else if(bitRate == 16)
 				format = numChannels == 1 ? FORMAT_MONO16 : FORMAT_STEREO16;
 			
-			byte[] data = new byte[buffer.capacity() - WAV_HEADER_SIZE];
+			buffer.position(WAV_HEADER_SIZE);
+			alBufferData(id, format, buffer.slice(), freq);
 			
-			buffer.get(data, WAV_HEADER_SIZE, data.length);
-			
-			alBufferData(id, format, BufferUtil.toByteBuffer(data), freq);
+			if(alGetError() != AL_NO_ERROR) {
+				System.err.println("An error occured when initializing audio data!");
+			}
 			
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		return this;
+	}
+	
+	public int getID() {
+		return id;
 	}
 }
