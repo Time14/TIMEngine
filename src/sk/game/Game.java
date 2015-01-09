@@ -20,7 +20,7 @@ public class Game implements SKFramework {
 	public Game() {
 		Core core = new Core(this);
 		
-		Window window = new Window(800, 600, "SK's Platformer").setBackgroundColor(Color.CYAN).showFPS(true);
+		Window window = new Window(800, 600, "Ed's master plan").setFPS(60).setBackgroundColor(Color.CYAN).showFPS(true);
 		
 		GameStateManager gsm = new GameStateManager();
 		
@@ -38,6 +38,7 @@ public class Game implements SKFramework {
 		Debug.enableLineStipple(false);
 		Debug.setLineStipple(3, (short)100);
 		Debug.setLineWidth(5);
+		AudioManager.setEnabled(false);
 	}
 	
 	public void registerAudio() {

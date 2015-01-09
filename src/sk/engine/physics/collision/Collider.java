@@ -1,7 +1,6 @@
 package sk.engine.physics.collision;
 
 import java.util.ArrayList;
-
 import sk.engine.graphics.entity.Transform;
 import sk.engine.vector.Vector2f;
 import sk.engine.vector.Vector4f;
@@ -9,7 +8,7 @@ import sk.engine.vector.Vector4f;
 public abstract class Collider {
 	
 	protected Vector4f[] points;
-	
+
 	protected Transform transform;
 	
 	public final int length;
@@ -28,10 +27,14 @@ public abstract class Collider {
 		this.transform = transform;
 	}
 	
-	public abstract boolean isColliding(Collider c);
+	public abstract LineCastHit isColliding(Collider c);
 	public abstract void update(double tick);
 	
 	public Vector4f[] getPoints() {
 		return points;
+	}
+	
+	public Vector2f getPoint(int index) {
+		return points[index % points.length].clone().multiply(transform).to2D();
 	}
 }

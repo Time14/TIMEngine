@@ -33,11 +33,12 @@ public class Transform {
 		
 		matrix.multiply(Matrix4f.IDENTITY().translate(position));
 		
+		
 		return matrix;
 	}
 	
-	public Transform rotate(float angle) {
-		rotation += angle;
+	public Transform rotate(double d) {
+		rotation += d;
 		
 		return this;
 	}
@@ -77,5 +78,4 @@ public class Transform {
 	public float getRotation() {
 		return rotation;
 	}
-	
 }

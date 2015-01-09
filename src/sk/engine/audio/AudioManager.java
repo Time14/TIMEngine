@@ -13,6 +13,8 @@ import static org.lwjgl.openal.AL10.*;
 
 public class AudioManager implements Runnable {
 	
+	private static boolean enabled = true;
+	
 	public static final float LOOPS_PER_SECOND = 10;
 	
 	private static final HashMap<String, AudioClip> audioClips = new HashMap<>();
@@ -203,7 +205,7 @@ public class AudioManager implements Runnable {
 		
 		running = true;
 		
-		while(running) {
+		while(running && enabled) {
 			update();
 		}
 		
@@ -221,5 +223,13 @@ public class AudioManager implements Runnable {
 	
 	public static final void registerAudio(String key, String src) {
 		audioClips.put(key, new AudioClip().createAudio(key, src));
+	}
+	
+	public static final boolean isEnabled() {
+		return enabled;
+	}
+	
+	public static final void setEnabled(boolean enabled) {
+		AudioManager.enabled = enabled;
 	}
 }

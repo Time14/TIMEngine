@@ -54,4 +54,30 @@ public class Vector3f {
 	public float[] getData() {
 		return new float[]{x, y, z};
 	}
+	
+	public Vector2f to2D() {
+		return new Vector2f(x,y);
+	}
+	
+	public Vector3f add(Vector3f vector) {
+		
+		x += vector.x;
+		y += vector.y;
+		z += vector.z;
+		
+		return this;
+	}
+	
+	public Vector3f mult(float scaler) {
+		
+		x *= scaler;
+		y *= scaler;
+		z *= scaler;
+		
+		return this;
+	}
+	
+	public Vector3f clone() {
+		return new Vector3f(this);
+	}
 }

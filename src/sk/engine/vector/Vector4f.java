@@ -49,6 +49,10 @@ public class Vector4f {
 		this.w = w;
 	}
 	
+	public Vector2f to2D() {
+		return new Vector2f(x,y);
+	}
+	
 	public Vector4f multiply(Transform transform) {
 		Matrix4f mat4 = transform.getMatrix();
 		
@@ -80,5 +84,9 @@ public class Vector4f {
 	
 	public static final Vector4f multiply(Vector4f vec4, Transform transform) {
 		return new Vector4f(vec4).multiply(transform);
+	}
+	
+	public Vector4f clone() {
+		return new Vector4f(this);
 	}
 }

@@ -39,6 +39,11 @@ public final class Time {
 		return delta;
 	}
 	
+	public static final double getExactDelta() {
+		long currentTime = getNanoTime();
+		return (currentTime - previousTime) / 1000000000;
+	}
+	
 	public static final int getFPS() {
 		return fps;
 	}
