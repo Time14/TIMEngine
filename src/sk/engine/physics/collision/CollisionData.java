@@ -66,7 +66,7 @@ public class CollisionData {
 			this.hit = clc.rayCast(direction, body2, body1.getColliderPoint(corner).x, Float.POSITIVE_INFINITY);
 
 		// Define the normal
-		normal = body1.getColliderPoint(hit.getCornerID()).sub(body2.getColliderPoint(this.hit.getCornerID() + 1)).getNormal();
+//		normal = body1.getColliderPoint(hit.getCornerID()).sub(body2.getColliderPoint(this.hit.getCornerID() + 1)).getNormal();
 
 //		if(normal.isFacing(body2.getTransform().getPosition().to2D(), this.hit.getPosition())) {
 //			System.out.println("Some kind of hit");
@@ -74,7 +74,7 @@ public class CollisionData {
 //			normal = normal.normalize().invert();
 //		}
 		
-//		normal = body1.getTransform().getPosition().to2D().sub(this.hit.getPosition());
+		normal = body1.getTransform().getPosition().to2D().sub(this.hit.getPosition());
 		radius1 = body1.getTransform().getPosition().to2D().sub(this.hit.getPosition()).getLength();
 		radius2 = body2.getTransform().getPosition().to2D().sub(this.hit.getPosition()).getLength();
 		
@@ -97,8 +97,8 @@ public class CollisionData {
 		body1.addForce(normal.clone().mult(totalMag * -body1.getBounce() * body1.getInvertedMass()));
 		body2.addForce(normal.clone().mult(totalMag * body2.getBounce() * body2.getInvertedMass()));
 		
-		body1.addTorque(normal.dotProduct(normal.clone()) * body1.getInvertedMass() * radius1);
-		body2.addTorque(normal.dotProduct(normal.clone()) * body2.getInvertedMass() * -radius2);
+		body1.addTorque(normal.dotProduct(normal.clone()) * body1.getInvertedMass() * -radius1);
+		body2.addTorque(normal.dotProduct(normal.clone()) * body2.getInvertedMass() * radius2);
 		
 //		System.out.println(force);
 	}

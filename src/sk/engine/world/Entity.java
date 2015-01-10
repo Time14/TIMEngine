@@ -1,8 +1,8 @@
 package sk.engine.world;
 
-import sk.engine.graphics.mesh.Mesh;
-import sk.engine.graphics.mesh.Transform;
-import sk.engine.graphics.mesh.texture.DynamicTexture;
+import sk.engine.graphics.entity.mesh.Mesh;
+import sk.engine.graphics.entity.Transform;
+import sk.engine.graphics.entity.mesh.texture.DynamicTexture;
 import sk.engine.graphics.shader.ShaderProgram;
 import sk.engine.physics.RigidBody;
 
