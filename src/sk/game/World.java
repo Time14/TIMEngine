@@ -63,11 +63,21 @@ public class World {
 	}
 	
 	private Interpolation slerp;
+	private float speed = 1;
 	public void update() {
 		
-		pe.update(Time.getDelta());
+		pe.update(Time.getDelta() * speed);
 		
 		Debug.drawLine(q1.getTransform().getPosition().to2D(), q2.getTransform().getPosition().to2D(), new Color(Color.GREEN));
+		
+		if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
+			speed -= Time.getDelta();
+			if(speed < 0)
+				speed = 0;
+		} else if(Keyboard.isKeyDown(Keyboard.KEY_E)) {
+			speed += Time.getDelta();
+		}
+		System.out.println(speed);
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
 			q1.getRigidBody().addTorque((float)(1000 * Time.getDelta()));
@@ -84,35 +94,35 @@ public class World {
 		
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)) {
-			q1.getRigidBody().addForce((float)(-1000.0f * Time.getDelta()),(float)(0 * Time.getDelta()));
+			q1.getRigidBody().addForce((float)(-10.0f),(float)(0));
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) {
-			q1.getRigidBody().addForce((float)(1000.0f * Time.getDelta()),(float)(0 * Time.getDelta()));
+			q1.getRigidBody().addForce((float)(10.0f),(float)(0));
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-			q1.getRigidBody().addForce((float)(0),(float)(-1000.0f * Time.getDelta()));
+			q1.getRigidBody().addForce((float)(0),(float)(-10.0f));
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
-			q1.getRigidBody().addForce((float)(0),(float)(1000.0f * Time.getDelta()));
+			q1.getRigidBody().addForce((float)(0),(float)(10.0f));
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			q2.getRigidBody().addForce((float)(-1000.0f * Time.getDelta()),(float)(0 * Time.getDelta()));
+			q2.getRigidBody().addForce((float)(-10.0f),(float)(0));
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			q2.getRigidBody().addForce((float)(1000.0f * Time.getDelta()),(float)(0 * Time.getDelta()));
+			q2.getRigidBody().addForce((float)(10.0f),(float)(0));
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			q2.getRigidBody().addForce((float)(0),(float)(-1000.0f * Time.getDelta()));
+			q2.getRigidBody().addForce((float)(0),(float)(-10.0f));
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			q2.getRigidBody().addForce((float)(0),(float)(1000.0f * Time.getDelta()));
+			q2.getRigidBody().addForce((float)(0),(float)(10.0f));
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_M)) {

@@ -5,6 +5,8 @@ import sk.engine.graphics.entity.Transform;
 import sk.engine.graphics.entity.mesh.texture.DynamicTexture;
 import sk.engine.graphics.shader.ShaderProgram;
 import sk.engine.physics.RigidBody;
+import sk.engine.vector.Vector2f;
+import sk.engine.vector.Vector3f;
 
 public abstract class Entity {
 	
@@ -59,5 +61,56 @@ public abstract class Entity {
 	
 	public void kill() {
 		alive = false;
+	}
+	
+	public float getX() {
+		return transform.getPosition().x;
+	}
+	
+	public float getY() {
+		return transform.getPosition().y;
+	}
+	
+	public float getZ() {
+		return transform.getPosition().z;
+	}
+	
+	public float getRotation() {
+		return transform.getRotation();
+	}
+	
+	public Entity setX(float x) {
+		transform.getPosition().x = x;
+		return this;
+	}
+	
+	public Entity setY(float y) {
+		transform.getPosition().y = y;
+		return this;
+	}
+	
+	public Entity setZ(float z) {
+		transform.getPosition().z = z;
+		return this;
+	}
+	
+	public Entity setRotation(float r) {
+		transform.setRotation(r);
+		return this;
+	}
+	
+	public Entity setPosition(float x, float y) {
+		setPosition(new Vector2f(x, y));
+		return this;
+	}
+	
+	public Entity setPosition(Vector3f vec3) {
+		transform.setPosition(vec3);
+		return this;
+	}
+	
+	public Entity setPosition(Vector2f vec2) {
+		transform.setPosition(vec2);
+		return this;
 	}
 }

@@ -71,7 +71,7 @@ public class ColliderLineCast extends Collider {
 	}
 	
 	public LineCastHit rayCast(Line line, RigidBody target, float min, float max) {
-		int length = target.getColliders().get(0).getPoints().length;
+		int length = target.getColliderPoints().length;
 		Vector2f position = new Vector2f();
 		int i = 0;
 		boolean hit = false;

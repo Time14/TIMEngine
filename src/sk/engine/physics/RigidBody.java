@@ -11,6 +11,7 @@ import sk.engine.physics.collision.Collider;
 import sk.engine.physics.collision.CollisionData;
 import sk.engine.physics.collision.LineCastHit;
 import sk.engine.vector.Vector2f;
+import sk.engine.vector.Vector3f;
 import sk.engine.vector.Vector4f;
 
 public class RigidBody {
@@ -65,12 +66,12 @@ public class RigidBody {
 //			System.out.println("The direction is equal to NaN"); 
 //			return;
 //		}
-		transform.getPosition().add(direction.clone().mult(magnitude * iMass * Time.getDelta()).to3D()); 
+		transform.getPosition().add(direction.clone().mult(magnitude * iMass * delta).to3D()); 
 		transform.rotate(torque * delta);
 		
 		//Applying drag 
-		torque -= torque * drag * Time.getDelta() ;
-		magnitude -= magnitude * drag * Time.getDelta(); 
+		torque -= torque * drag * delta;
+		magnitude -= magnitude * drag * delta; 
 	}
 	
 	public RigidBody setOverlapping (boolean bool) {
@@ -208,6 +209,10 @@ public class RigidBody {
 		return this.getColliders().get(0).getPoint(index);
 	}
 	
+	public Vector4f[] getColliderPoints() {
+		return this.getColliders().get(0).getPoints();
+	}
+	
 	public boolean hasMomentum() {
 		return (magnitude > 0.0f);
 	}
@@ -240,7 +245,7 @@ public class RigidBody {
 		if(iMass == 0) {
 			return this;
 		}
-		direction = direction.mult(magnitude).add(force.mult(iMass));
+		direction.mult(magnitude).add(force.mult(iMass));
 		magnitude = direction.getLength();
 		direction.normalize();
 		
@@ -277,7 +282,7 @@ public class RigidBody {
 	}
 	
 	public Vector2f getVelocity() {
-		return direction.mult(magnitude);
+		return Vector2f.mult(magnitude, direction);
 	}
 	
 	public float getDrag() {
@@ -289,7 +294,7 @@ public class RigidBody {
 	}
 	
 	public void calculateInertia() {
-		Vector4f[] points = this.getColliders().get(0).getPoints();
+		Vector4f[] points = this.getColliderPoints();
 		float sum = 0;
 		for(int i = 0; i < points.length - 1; i++){
 			sum += (points[i].x * points[i].x + points[i].y * points[i].y + points[i].x*points[i+1].x + points[i].y*points[i+1].y + points[i+1].x * points[i+1].x + points[i+1].y * points[i+1].y)*
@@ -301,6 +306,53 @@ public class RigidBody {
 	public boolean hasInertia() {
 		return inertia != -1;
 	}
+	
+	public float getX() {
+		return transform.getPosition().x;
+	}
+	
+	public float getY() {
+		return transform.getPosition().y;
+	}
+	
+	public float getRotation() {
+		return transform.getRotation();
+	}
+	
+	public RigidBody setX(float x) {
+		transform.getPosition().x = x;
+		return this;
+	}
+	
+	public RigidBody setY(float y) {
+		transform.getPosition().y = y;
+		return this;
+	}
+	
+	public Vector3f getPosition() {
+		return transform.getPosition();
+	}
+	
+	public RigidBody setRotation(float r) {
+		transform.setRotation(r);
+		return this;
+	}
+	
+	public RigidBody setPosition(float x, float y) {
+		setPosition(new Vector2f(x, y));
+		return this;
+	}
+	
+	public RigidBody setPosition(Vector3f vec3) {
+		transform.setPosition(vec3);
+		return this;
+	}
+	
+	public RigidBody setPosition(Vector2f vec2) {
+		transform.setPosition(vec2);
+		return this;
+	}
+	
 	public String toString() {
 		return "RigidBody" + pe.getRigidBodyIndex(this);
 	}

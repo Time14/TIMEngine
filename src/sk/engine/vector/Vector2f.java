@@ -80,7 +80,7 @@ public class Vector2f {
 	    return this;
 	}
 	
-	public float dotProduct(Vector2f vector) {
+	public float dot(Vector2f vector) {
 		return x*vector.x + y*vector.y;
 	}
 	
