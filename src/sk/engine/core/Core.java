@@ -38,13 +38,13 @@ public final class Core {
 		
 		game.enableDebugFeatures();
 		
-		gsm.initCore(this);
-		
 		am = new AudioManager(gsm);
 		
 		audioThread = new Thread(am, "AudioManager");
 		
 		audioThread.start();
+		
+		gsm.initCore(this);
 		
 		running = true;
 		

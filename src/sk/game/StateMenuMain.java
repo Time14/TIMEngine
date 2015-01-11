@@ -28,6 +28,7 @@ public class StateMenuMain extends GameState {
 		world = new World();
 		world.populate();
 		player = world.getPlayer();
+		gsm.getCore().getAudioManager().queueLoopAudio("Repeatedly", 0, 1, 1, 0);
 	}
 	
 	public void checkMouse(int b, boolean p) {}
