@@ -19,9 +19,9 @@ public class Game implements SKFramework {
 	
 	public Game() {
 		Core core = new Core(this);
-		
+	
 		Window window = new Window(800, 600, "Ed's master plan").setFPS(60).setBackgroundColor(Color.CYAN).showFPS(true);
-		
+//		.setFPS(60)
 		GameStateManager gsm = new GameStateManager();
 		
 		core.addComponents(window, gsm);

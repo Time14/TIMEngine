@@ -27,6 +27,7 @@ public class World {
 	
 	private EntityQuad q1;
 	private EntityQuad q2;
+	private EntityQuad ground;
 	
 	private Vector2f offset = new Vector2f(100,100);
 	
@@ -40,13 +41,18 @@ public class World {
 		
 		q2 = new EntityQuad(300, 300, 0, 100, 100);
 		q1 = new EntityQuad(75, 75, 0, 100, 100);
+		ground = new EntityQuad(300, 600, 0, 600, 50);
 		
-		q2.getRigidBody().setMass(1f).setBounce(0.1f);
-		q1.getRigidBody().setMass(2.0f);
+		ground.getRigidBody().setMass(0);
+		ground.getRigidBody().setBounce(0);
+		
+		q2.getRigidBody().setMass(1.0f).setBounce(1.0f);
+		q1.getRigidBody().setMass(2.0f).setBounce(1.0f);
 		
 		pe.addRigidBody(q1.getRigidBody());
 		pe.addRigidBody(q2.getRigidBody());
-		q1.getRigidBody().addTorque(-90);
+		pe.addRigidBody(ground.getRigidBody());
+		q1.getRigidBody().allowRotation(false).addTorque(-90);
 		q2.getRigidBody().addTorque(90);
 //		q1.getRigidBody().setForce(new Vector2f(1f,1f), 1);
 //		q2.getRigidBody().addForce(new Vector2f(1f,1f));
@@ -67,7 +73,8 @@ public class World {
 	public void update() {
 		
 		pe.update(Time.getDelta() * speed);
-		
+		q1.getRigidBody().addForce(new Vector2f(0,(float) (5000.0 * Time.getDelta())));
+		q2.getRigidBody().addForce(new Vector2f(0,(float) (5000.0 * Time.getDelta())));
 		Debug.drawLine(q1.getTransform().getPosition().to2D(), q2.getTransform().getPosition().to2D(), new Color(Color.GREEN));
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
@@ -186,7 +193,7 @@ public class World {
 	public void draw() {
 		q1.draw();
 		q2.draw();
-		
+		ground.draw();
 		/*
 		player.draw();
 		for(Coin c : coins)

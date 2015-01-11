@@ -31,10 +31,10 @@ public class PhysicsEngine {
 		}
 		//Update the bodies if needed
 		for(RigidBody rb : bodies) {
-			if(!rb.hasInertia()){
-				rb.calculateInertia();
-				System.out.println("What?!");
-			}
+//			if(!rb.hasInertia()){
+//				rb.calculateInertia();
+//				System.out.println("What?!");
+//			}
 			if(rb.isAlive()) {
 				if(rb.hasMomentum() || rb.hasTorque())
 					rb.update(tick);
