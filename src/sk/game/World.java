@@ -36,7 +36,7 @@ public class World {
 		coins = new ArrayList<>();
 		balls = new ArrayList<>();
 		deadBalls = new ArrayList<>();
-		pe = new PhysicsEngine();
+		pe = new PhysicsEngine().setGravity(0, 10);
 		
 		
 		q2 = new EntityQuad(300, 300, 0, 100, 100);

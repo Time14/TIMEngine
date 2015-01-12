@@ -3,8 +3,10 @@ package sk.engine.physics;
 import java.io.Console;
 import java.util.ArrayList;
 import java.util.Stack;
+
 import sk.engine.physics.collision.Collider;
 import sk.engine.physics.collision.CollisionData;
+import sk.engine.vector.Vector2f;
 
 public class PhysicsEngine {
 	
@@ -14,10 +16,13 @@ public class PhysicsEngine {
 	private ArrayList<Integer> corners;
 	private Stack<RigidBody> deathPool;
 	
+	private Vector2f gravity;
+	
 	public PhysicsEngine() {
 		bodies = new ArrayList<>();
 		deathPool = new Stack<>();
 		collisions = new ArrayList<>();
+		gravity = new Vector2f();
 	}
 	
 	public void update(double tick) {
@@ -36,8 +41,9 @@ public class PhysicsEngine {
 //				System.out.println("What?!");
 //			}
 			if(rb.isAlive()) {
-				if(rb.hasMomentum() || rb.hasTorque())
+				if(rb.hasMomentum() || rb.hasTorque() || hasGravity()) {
 					rb.update(tick);
+				}
 			} else {
 				deathPool.add(rb);
 			}
@@ -102,5 +108,23 @@ public class PhysicsEngine {
 	public void getCollisionIndex() {
 		index ++;
 		System.out.println(index);
+	}
+	
+	public Vector2f getGravity() {
+		return gravity;
+	}
+	
+	public PhysicsEngine setGravity(float x, float y) {
+		return setGravity(new Vector2f(x, y));
+	}
+	
+	public PhysicsEngine setGravity(Vector2f vec2) {
+		this.gravity = vec2;
+		
+		return this;
+	}
+	
+	public boolean hasGravity() {
+		return gravity.x != 0 || gravity.y != 0;
 	}
 }

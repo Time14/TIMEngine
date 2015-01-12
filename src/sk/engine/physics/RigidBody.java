@@ -58,6 +58,7 @@ public class RigidBody {
 	}
 	
 	public void update(double delta) {
+		addForce(pe.getGravity());
 		if (mass == 0) {
 			return;
 		}
@@ -66,7 +67,8 @@ public class RigidBody {
 //			System.out.println("The direction is equal to NaN"); 
 //			return;
 //		}
-		transform.getPosition().add(direction.clone().mult(magnitude * iMass * delta).to3D()); 
+		
+		transform.translate(Vector2f.mult(magnitude * delta, direction));
 		transform.rotate(torque * delta);
 		
 		//Applying drag 
@@ -245,7 +247,7 @@ public class RigidBody {
 		if(iMass == 0) {
 			return this;
 		}
-		direction.mult(magnitude).add(force.mult(iMass));
+		direction.mult(magnitude).add(force.clone().mult(iMass));
 		magnitude = direction.getLength();
 		direction.normalize();
 		

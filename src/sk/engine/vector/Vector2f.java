@@ -165,4 +165,8 @@ public class Vector2f {
 	public static final Vector2f mult(float scalar, Vector2f vec2) {
 		return new Vector2f(scalar * vec2.x, scalar * vec2.y);
 	}
+	
+	public static final Vector2f mult(double scalar, Vector2f vec2) {
+		return new Vector2f((float)scalar * vec2.x, (float)scalar * vec2.y);
+	}
 }
