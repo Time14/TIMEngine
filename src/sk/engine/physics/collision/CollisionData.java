@@ -84,7 +84,7 @@ public class CollisionData {
 	}
 	
 	public void solve() {
-		/*
+		
 		pe.getCollisionIndex();
 		body1.isAlive();
 		if(body1.getMass() > body2.getMass() && body1.getMass() != 0) {
@@ -92,17 +92,6 @@ public class CollisionData {
 		}
 		else if(body2.getMass() != 0){
 			body2.getTransform().setPosition(body2.getTransform().getPosition().to2D().add(body1.getColliderPoint(corner).sub(hit.getPosition()).mult(1.0001f)));
-		}
-		
-		float totalMag = body1.getMagnitude() * body1.getMass() + body2.getMagnitude() * body2.getMass();
-		*/
-		
-		pe.getCollisionIndex();
-		if(body1.getMass() > body2.getMass() && body1.getMass() != 0) {
-			body1.setPosition(body1.getPosition().to2D().add(hit.getPosition().sub(body1.getColliderPoint(corner))));
-		}
-		else if(body2.getMass() != 0){
-			body2.setPosition(body2.getPosition().to2D().add(body1.getColliderPoint(corner).sub(hit.getPosition())));
 		}
 		
 		float totalMag = body1.getMagnitude() * body1.getMass() + body2.getMagnitude() * body2.getMass();
