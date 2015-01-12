@@ -49,7 +49,7 @@ public class RigidBody {
 	public RigidBody() {
 		setMass(1.0f);
 		setDrag(1f);
-		friction = 1;
+		friction = 0.1f;
 		setBounce(1);
 		direction = new Vector2f();
 		colliders = new ArrayList<>();

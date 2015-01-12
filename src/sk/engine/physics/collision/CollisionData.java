@@ -95,18 +95,12 @@ public class CollisionData {
 		}
 		
 		float totalMag = body1.getMagnitude() * body1.getMass() + body2.getMagnitude() * body2.getMass();
-		
-		double angle1 = normal.getAngle(body1.getForce());
-		double angle2 = normal.getAngle(body2.getForce());
-		
-		Vector2f force1 = new Vector2f().add(body2.getForce().mult( Math.cos(angle1) * body1.getBounce() ).add(body2.getForce().mult( Math.sin(angle1) * body1.getFriction() )));
-		Vector2f force2 = new Vector2f().add(body1.getForce().mult( Math.cos(angle2) * body2.getBounce() ).add(body1.getForce().mult( Math.sin(angle2) * body2.getFriction() )));
-		
-		body1.addForce(force1);
-		body2.addForce(force2);
+				
+		body1.addForce(normal.clone().mult(totalMag * energyKeept * -body1.getBounce() * body1.getInvertedMass()));
+		body2.addForce(normal.clone().mult(totalMag * energyKeept *  body2.getBounce() * body2.getInvertedMass()));
 
-		body1.addTorque(body1.getTransform().getPosition().to2D().add(hit.getPosition().sub(body1.getColliderPoint(corner))).cross(force1.clone().mult(body1.getInvertedMass()))/(radius1*radius1*body1.getMass())*-10);
-		body2.addTorque(body2.getTransform().getPosition().to2D().add(hit.getPosition().sub(body2.getColliderPoint(corner))).cross(force2.clone().mult(body2.getInvertedMass()))/(radius2*radius2*body2.getMass())*10);
+		body1.addTorque(body1.getTransform().getPosition().to2D().add(hit.getPosition().sub(body1.getColliderPoint(corner))).cross(normal.clone().mult(totalMag * energyKeept * -body1.getBounce() * body1.getInvertedMass()))/(radius1*radius1*body1.getMass())*-10);
+		body2.addTorque(body2.getTransform().getPosition().to2D().add(hit.getPosition().sub(body2.getColliderPoint(corner))).cross(normal.clone().mult(totalMag * energyKeept * -body2.getBounce() * body2.getInvertedMass()))/(radius2*radius2*body2.getMass())*10);
 
 //		System.out.println(force);
 //		body1.addForce(normal.clone().mult(totalMag * energyKeept * -body1.getBounce() * body1.getInvertedMass()));
