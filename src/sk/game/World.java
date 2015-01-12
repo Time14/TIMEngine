@@ -52,7 +52,7 @@ public class World {
 		pe.addRigidBody(q1.getRigidBody());
 		pe.addRigidBody(q2.getRigidBody());
 		pe.addRigidBody(ground.getRigidBody());
-		q1.getRigidBody().allowRotation(false).addTorque(-90);
+		q1.getRigidBody().addTorque(-90);
 		q2.getRigidBody().addTorque(90);
 //		q1.getRigidBody().setForce(new Vector2f(1f,1f), 1);
 //		q2.getRigidBody().addForce(new Vector2f(1f,1f));
@@ -73,9 +73,9 @@ public class World {
 	public void update() {
 		
 		pe.update(Time.getDelta() * speed);
-		q1.getRigidBody().addForce(new Vector2f(0,(float) (5000.0 * Time.getDelta())));
-		q2.getRigidBody().addForce(new Vector2f(0,(float) (5000.0 * Time.getDelta())));
 		Debug.drawLine(q1.getTransform().getPosition().to2D(), q2.getTransform().getPosition().to2D(), new Color(Color.GREEN));
+		
+		
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_Q)) {
 			speed -= Time.getDelta();

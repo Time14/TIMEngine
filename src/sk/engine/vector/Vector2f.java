@@ -158,6 +158,10 @@ public class Vector2f {
 		return actualPoint.x/Math.abs(actualPoint.x) == x/Math.abs(x) && actualPoint.y/Math.abs(actualPoint.y) == y/Math.abs(y);
 	}
 	
+	public double getAngle(Vector2f vector) {
+		return Math.atan(this.getLength() / vector.getLength());
+	}
+	
 	public static final Vector2f mult(float scalar, Vector2f vec2) {
 		return new Vector2f(scalar * vec2.x, scalar * vec2.y);
 	}
