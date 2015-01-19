@@ -49,7 +49,7 @@ public class World {
 		ground = new EntityQuad(300, 600, 0, 600, 100);
 		
 		ground.getRigidBody().setMass(0);
-		ground.getRigidBody().setBounce(0);
+		ground.getRigidBody().setBounce(0.5f);
 		
 //		q2.getRigidBody().setMass(1.0f).setBounce(1.0f);
 		q1.getRigidBody().setMass(1.0f).setBounce(1.0f);
