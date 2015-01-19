@@ -22,7 +22,7 @@ public class CollisionData {
 	private RigidBody body1;
 	private RigidBody body2;
 	
-	private float energyKeept = 0.90f;
+	private float energyKeept = 0.99f;
 	
 	private Vector2f normal;
 	
@@ -30,6 +30,8 @@ public class CollisionData {
 	
 	private float radius1;
 	private float radius2;
+	
+	private float depth;
 	
 	private int corner;
 	
@@ -57,7 +59,10 @@ public class CollisionData {
 		this.body2 = body2;
 			
 		// Draw a line to the center of the polygon
-		direction = new Line(body1.getColliderPoint(corner), body1.getPosition().to2D());
+//		direction = new Line(body1.getColliderPoint(corner), body1.getPosition().to2D());
+		
+		// Draw a line tracing back to collision
+		direction = new Line(body1.getColliderPoint(corner), body1.getColliderPoint(corner).clone().sub(body1.getVelocity()));
 		
 		// See where the line intersects the polygon
 		if(body1.getX() < body1.getColliderPoint(corner).x)
@@ -78,45 +83,67 @@ public class CollisionData {
 		radius1 = body1.getTransform().getPosition().to2D().sub(this.hit.getPosition()).getLength();
 		radius2 = body2.getTransform().getPosition().to2D().sub(this.hit.getPosition()).getLength();
 		
-		normal.normalize();
 		
+
+		if(Math.abs(normal.x) > Math.abs(normal.y)){
+			normal = new Vector2f(normal.x, 0);
+		}
+		else {
+			normal = new Vector2f(0, normal.y);
+		}
+		depth = normal.getLength();
+		normal.normalize();
+		System.out.println(normal);
 		pe.addCollision(this);
 	}
 	
 	public void solve() {
-		
-		pe.getCollisionIndex();
-		body1.isAlive();
-		if(body1.getMass() > body2.getMass() && body1.getMass() != 0) {
-			body1.getTransform().setPosition(body1.getTransform().getPosition().to2D().add(hit.getPosition().sub(body1.getColliderPoint(corner).mult(1.0001f))));
-		}
-		else if(body2.getMass() != 0){
-			body2.getTransform().setPosition(body2.getTransform().getPosition().to2D().add(body1.getColliderPoint(corner).sub(hit.getPosition()).mult(1.0001f)));
-		}
-		
-		float totalMag = body1.getMagnitude() * body1.getMass() + body2.getMagnitude() * body2.getMass();
-		
-		double angle1 = normal.getAngle(body1.getForce());
-		double angle2 = normal.getAngle(body2.getForce());
-		
-		Vector2f force1 = new Vector2f().add(body2.getForce().mult( Math.cos(angle1) * body1.getBounce() ).add(body2.getForce().mult( Math.sin(angle1) * body1.getFriction() )));
-		Vector2f force2 = new Vector2f().add(body1.getForce().mult( Math.cos(angle2) * body2.getBounce() ).add(body1.getForce().mult( Math.sin(angle2) * body2.getFriction() )));
-		
-		body1.addForce(force1);
-		body2.addForce(force2);
-		
-//		body1.addForce(normal.clone().mult(totalMag * energyKeept * -body1.getBounce() * body1.getInvertedMass()));
-//		body2.addForce(normal.clone().mult(totalMag * energyKeept *  body2.getBounce() * body2.getInvertedMass()));
 
-		body1.addTorque(body1.getTransform().getPosition().to2D().add(hit.getPosition().sub(body1.getColliderPoint(corner))).cross(normal.clone().mult(totalMag * energyKeept * -body1.getBounce() * body1.getInvertedMass()))/(radius1*radius1)*-10);
-		body2.addTorque(body2.getTransform().getPosition().to2D().add(hit.getPosition().sub(body2.getColliderPoint(corner))).cross(normal.clone().mult(totalMag * energyKeept * -body2.getBounce() * body2.getInvertedMass()))/(radius2*radius2)*10);
+		velCalc();
+		/*
+		rV = a.vel:clone():sub(b.vel)
+		velAlongNormal = rV:dot(n:clone())
+		if(velAlongNormal < 0 or (a.getIMass() + b.getIMass()) == 0)then
+			return
+		end
+		e = math.min(a.bounce, b.bounce)
+		j = -(1 + e) * velAlongNormal
+		j = j / (a.getIMass() + b.getIMass())
 
+		impulse = n:clone():scale(j)
+		a.vel:add(impulse:clone():scale(a.getIMass() * 1))
+		b.vel:add(impulse:clone():scale(-b.getIMass() * 1))
+		*/
+		if(body1.getMass() != 0) {
+			body1.getTransform().translate(normal.mult(0.2 * depth));
+		}
+		if(body2.getMass() != 0){
+			body2.getTransform().translate(normal.mult(-0.2 * depth));
+		}//*/
 //		System.out.println(force);
-//		body1.addForce(normal.clone().mult(totalMag * energyKeept * -body1.getBounce() * body1.getInvertedMass()));
-//		body2.addForce(normal.clone().mult(totalMag * energyKeept *  body2.getBounce() * body2.getInvertedMass()));
-//		body1.addTorque(body1.getTransform().getPosition().to2D().add(hit.getPosition().sub(body1.getColliderPoint(corner))).cross(normal.clone().mult(totalMag * energyKeept * -body1.getBounce() * body1.getInvertedMass()))/(radius1*radius1*body1.getMass())*-10);
-//		body2.addTorque(body2.getTransform().getPosition().to2D().add(hit.getPosition().sub(body2.getColliderPoint(corner))).cross(normal.clone().mult(totalMag * energyKeept * -body2.getBounce() * body2.getInvertedMass()))/(radius2*radius2*body2.getMass())*10);
-
+//		body1.addForce(Vector2f.mult(totalMag * -body1.getBounce() * body1.getInvertedMass(), normal));
+//		body2.addForce(Vector2f.mult(totalMag * body2.getBounce() * body2.getInvertedMass(), normal));
+//		body1.addTorque(normal.dotProduct(normal.clone()) * body1.getInvertedMass() * -radius1);
+//		body2.addTorque(normal.dotProduct(normal.clone()) * body2.getInvertedMass() * radius2);
 		
+	}
+	
+	private void velCalc() {
+		pe.getCollisionIndex();
+		
+		Vector2f relVel = body1.getVelocity().clone().sub(body2.getVelocity());
+		
+		float velAlongNormal = relVel.dot(normal);
+		
+		if(velAlongNormal < 0 || (body1.getInvertedMass() + body2.getInvertedMass()) == 0) {
+			return;
+		}
+		float e = Math.min(body1.getBounce(), body2.getBounce());
+		float j = -(1 + e) * velAlongNormal;
+		Vector2f impulse = normal.clone().mult(j);
+		System.out.println("pre : " + body1.getPosition().to2D());
+		body1.addForce(impulse);
+		body2.addForce(impulse.invert());
+		System.out.println("su : " + body1.getPosition().to2D());
 	}
 }

@@ -49,8 +49,8 @@ public class RigidBody {
 	public RigidBody() {
 		setMass(1.0f);
 		setDrag(1f);
-		friction = 0.1f;
-		setBounce(1);
+		setFriction(1f);
+		setBounce(0.5f);
 		direction = new Vector2f();
 		colliders = new ArrayList<>();
 		alive = true;
@@ -69,10 +69,10 @@ public class RigidBody {
 //		}
 		
 		transform.translate(Vector2f.mult(magnitude * delta, direction));
-		transform.rotate(torque * delta);
+//		transform.rotate(torque * delta);
 		
 		//Applying drag 
-		torque -= torque * drag * delta;
+//		torque -= torque * drag * delta;
 		magnitude -= magnitude * drag * delta; 
 	}
 	
@@ -125,19 +125,11 @@ public class RigidBody {
 		
 		return this;
 	}
-	public RigidBody setForce(Vector2f v) {
-		float scale = v.getLength();
-		return setForce(v.normalize(), scale);
-	}
 	
-	public RigidBody setForce(Vector2f vector, float scalar) {
+	public RigidBody setForce(Vector2f force) {
 		
-		vector.normalize();
-		
-		direction.x = vector.x;
-		direction.y = vector.y;
-		
-		magnitude = scalar;
+		magnitude = 0;
+		addForce(force);
 		
 		return this;
 	}
@@ -199,8 +191,9 @@ public class RigidBody {
 		return this;
 	}
 	
-	public void addTorque(double newTorque) {
-		torque += newTorque * iMass; 
+	public RigidBody addTorque(double newTorque) {
+		torque += newTorque;
+		return this;
 	}
 	
 	public ArrayList<Collider> getColliders() {
@@ -244,15 +237,17 @@ public class RigidBody {
 	
 	public RigidBody addForce(Vector2f force) {
 		
-		if(iMass == 0) {
+		if(iMass == 0 || Math.round(force.getLength()) == 0 ) {
 			return this;
 		}
 		direction.mult(magnitude).add(force.clone().mult(iMass));
 		magnitude = direction.getLength();
+		if(direction.x == direction.y && direction.y == 0) {
+			direction = new Vector2f(1,0);
+		}
 		direction.normalize();
 		
 		return this;
-		
 	}
 	
 	public RigidBody sendPhysicsEngine(PhysicsEngine pe) {
@@ -265,20 +260,27 @@ public class RigidBody {
 		return bounce;
 	}
 	
+	public RigidBody setBounce(float bounce) {
+		bounce = Math.abs(bounce) < 1 ? Math.abs(bounce) : 1;
+		this.bounce = Math.abs(bounce);
+		
+		return this;
+	}
+	
 	public float getFriction() {
 		return friction;
 	}
 	
 	public RigidBody setFriction(float friction) {
-		
-		this.friction = friction;
+		friction = Math.abs(friction) < 1 ? Math.abs(friction) : 1;
+		this.friction = Math.abs(friction);
 		
 		return this;
 	}
-	
-	public RigidBody setBounce(float bounce) {
-		
-		this.bounce = -1 * Math.abs(bounce);
+
+	public RigidBody setVelocity(Vector2f vel) {
+		this.magnitude = vel.getLength();
+		this.direction = vel.normalize();
 		
 		return this;
 	}

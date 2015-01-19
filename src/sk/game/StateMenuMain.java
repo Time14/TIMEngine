@@ -31,7 +31,9 @@ public class StateMenuMain extends GameState {
 		gsm.getCore().getAudioManager().queueLoopAudio("Repeatedly", 0, 1, 1, 0);
 	}
 	
-	public void checkMouse(int b, boolean p) {}
+	public void checkMouse(int b, boolean p) {
+		world.checkMouse(b, p);
+	}
 	
 	public void checkKeyboard(int k, boolean p) {
 		world.checkKeyboard(k, p);

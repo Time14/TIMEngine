@@ -12,7 +12,7 @@ public class Line {
 	}
 	
 	public Line(Vector2f dir) {
-		this(dir,new Vector2f());
+		this(new Vector2f(), dir);
 	}
 	
 	public Line(Vector2f point1, Vector2f point2) {
@@ -20,7 +20,10 @@ public class Line {
 		float deltaX = point2.x - point1.x;
 		float deltaY = point2.y - point1.y;
 		
-		if(deltaY == 0) {
+		if(deltaX == 0) {
+			slope = deltaY / 0.01f;
+		}
+		else if(deltaY == 0) {
 			slope = 0;
 		} else {
 			slope = deltaY / deltaX;

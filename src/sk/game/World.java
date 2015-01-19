@@ -29,33 +29,53 @@ public class World {
 	private EntityQuad q2;
 	private EntityQuad ground;
 	
-	private Vector2f offset = new Vector2f(100,100);
+	private ArrayList<EntityQuad> quads;	
+	
+	Vector2f nor = new Vector2f(10,100);
+	Vector2f force = new Vector2f(50,50);
+	Vector2f offset = new Vector2f(100,100);
 	
 	public World() {
 		player = new Player(0, 0, 100, 100);
 		coins = new ArrayList<>();
 		balls = new ArrayList<>();
 		deadBalls = new ArrayList<>();
+		quads = new ArrayList<>();
 		pe = new PhysicsEngine().setGravity(0, 10);
 		
 		
-		q2 = new EntityQuad(300, 300, 0, 100, 100);
-		q1 = new EntityQuad(75, 75, 0, 100, 100);
-		ground = new EntityQuad(300, 600, 0, 600, 50);
+//		q2 = new EntityQuad(300, 300, 0, 100, 100);
+		q1 = new EntityQuad(100, 100, 0, 100, 100);
+		ground = new EntityQuad(300, 600, 0, 600, 100);
 		
 		ground.getRigidBody().setMass(0);
 		ground.getRigidBody().setBounce(0);
 		
-		q2.getRigidBody().setMass(1.0f).setBounce(1.0f);
-		q1.getRigidBody().setMass(2.0f).setBounce(1.0f);
+//		q2.getRigidBody().setMass(1.0f).setBounce(1.0f);
+		q1.getRigidBody().setMass(1.0f).setBounce(1.0f);
 		
 		pe.addRigidBody(q1.getRigidBody());
-		pe.addRigidBody(q2.getRigidBody());
+//		pe.addRigidBody(q2.getRigidBody());
 		pe.addRigidBody(ground.getRigidBody());
 		q1.getRigidBody().addTorque(-90);
-		q2.getRigidBody().addTorque(90);
+//		q2.getRigidBody().addTorque(90);
 //		q1.getRigidBody().setForce(new Vector2f(1f,1f), 1);
 //		q2.getRigidBody().addForce(new Vector2f(1f,1f));
+		
+		
+		
+		
+
+		
+	}
+	
+	public void checkMouse(int b, boolean p) {
+		if(p) {
+			if(b == 0) {
+				quads.add(new EntityQuad(Mouse.getX(), Window.getHeight()-Mouse.getY(), 0, 50, 50));
+				pe.addRigidBody(quads.get(quads.size()-1).getRigidBody());
+			}
+		}
 	}
 	
 	public void checkKeyboard(int k, boolean p) {
@@ -69,11 +89,15 @@ public class World {
 	}
 	
 	private Interpolation slerp;
-	private float speed = 1;
+	private float speed = 1f;
+	
 	public void update() {
 		
+		Debug.drawLine(offset, offset.add(nor), new Color(Color.PURPLE));
+		Debug.drawLine(offset, offset.add(force), new Color(Color.RED));
+		
 		pe.update(Time.getDelta() * speed);
-		Debug.drawLine(q1.getTransform().getPosition().to2D(), q2.getTransform().getPosition().to2D(), new Color(Color.GREEN));
+//		Debug.drawLine(q1.getTransform().getPosition().to2D(), q2.getTransform().getPosition().to2D(), new Color(Color.GREEN));
 		
 		
 		
@@ -84,19 +108,19 @@ public class World {
 		} else if(Keyboard.isKeyDown(Keyboard.KEY_E)) {
 			speed += Time.getDelta();
 		}
-		System.out.println(speed);
+//		System.out.println(speed);
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
 			q1.getRigidBody().addTorque((float)(1000 * Time.getDelta()));
 //			q2.getRigidBody().addTorque((float)(1000 * Time.getDelta()));
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-//			q1.getRigidBody().addTorque((float)(-1000 * Time.getDelta()));
-			q2.getRigidBody().addTorque((float)(-1000 * Time.getDelta()));
+			q1.getRigidBody().addTorque((float)(-1000 * Time.getDelta()));
+//			q2.getRigidBody().addTorque((float)(-1000 * Time.getDelta()));
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_R)) {
-			q1.getRigidBody().setForce(new Vector2f(1,1),0).setTorque(0).getTransform().setPosition(new Vector2f(75, 75)).setRotation(0.1f);
-			q2.getRigidBody().setForce(new Vector2f(1,1),0).setTorque(0).getTransform().setPosition(new Vector2f(300, 300)).setRotation(0.1f);
+			q1.getRigidBody().setMagnitude(0).setTorque(0).getTransform().setPosition(new Vector2f(75, 75)).setRotation(0.1f);
+//			q2.getRigidBody().setForce(new Vector2f(1,1),0).setTorque(0).getTransform().setPosition(new Vector2f(300, 300)).setRotation(0.1f);
 		}
 		
 		
@@ -116,25 +140,25 @@ public class World {
 			q1.getRigidBody().addForce((float)(0),(float)(10.0f));
 		}
 		
-		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			q2.getRigidBody().addForce((float)(-10.0f),(float)(0));
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			q2.getRigidBody().addForce((float)(10.0f),(float)(0));
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			q2.getRigidBody().addForce((float)(0),(float)(-10.0f));
-		}
-		
-		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			q2.getRigidBody().addForce((float)(0),(float)(10.0f));
-		}
+//		if(Keyboard.isKeyDown(Keyboard.KEY_A)) {
+//			q2.getRigidBody().addForce((float)(-10.0f),(float)(0));
+//		}
+//		
+//		if(Keyboard.isKeyDown(Keyboard.KEY_D)) {
+//			q2.getRigidBody().addForce((float)(10.0f),(float)(0));
+//		}
+//		
+//		if(Keyboard.isKeyDown(Keyboard.KEY_W)) {
+//			q2.getRigidBody().addForce((float)(0),(float)(-10.0f));
+//		}
+//		
+//		if(Keyboard.isKeyDown(Keyboard.KEY_S)) {
+//			q2.getRigidBody().addForce((float)(0),(float)(10.0f));
+//		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_M)) {
 			q1.getRigidBody().setTorque(0).setMagnitude(0);
-			q2.getRigidBody().setTorque(0).setMagnitude(0);
+//			q2.getRigidBody().setTorque(0).setMagnitude(0);
 		}
 		
 //		for(Ball b : deadBalls) {
@@ -192,8 +216,12 @@ public class World {
 	
 	public void draw() {
 		q1.draw();
-		q2.draw();
+//		q2.draw();
 		ground.draw();
+		
+		for(EntityQuad q : quads) {
+			q.draw();
+		}
 		/*
 		player.draw();
 		for(Coin c : coins)

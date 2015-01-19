@@ -103,7 +103,7 @@ public class Vector2f {
 	
 	public Vector2f getPerp(Vector2f normal) {
 		
-		return this.getPara(normal.getNormal());
+		return this.getPara(normal.getNormal()/*.getNormal().getNormal()*/);
 	}
 	
 	public Vector2f getPara(Vector2f normal) {
