@@ -49,7 +49,7 @@ public class RigidBody {
 	public RigidBody() {
 		setMass(1.0f);
 		setDrag(1f);
-		setFriction(1f);
+		setFriction(0.5f);
 		setBounce(0.5f);
 		direction = new Vector2f();
 		colliders = new ArrayList<>();
@@ -58,7 +58,7 @@ public class RigidBody {
 	}
 	
 	public void update(double delta) {
-		addForce(pe.getGravity());
+		addImpulse(pe.getGravity());
 		if (mass == 0) {
 			return;
 		}
@@ -129,7 +129,7 @@ public class RigidBody {
 	public RigidBody setForce(Vector2f force) {
 		
 		magnitude = 0;
-		addForce(force);
+		addImpulse(force);
 		
 		return this;
 	}
@@ -230,12 +230,10 @@ public class RigidBody {
 	
 	public RigidBody addForce(float x, float y) {
 		
-		addForce(new Vector2f(x,y));
-		
-		return this;
+		return addImpulse(new Vector2f(x,y));
 	}	
 	
-	public RigidBody addForce(Vector2f force) {
+	public RigidBody addImpulse(Vector2f force) {
 		
 		if(iMass == 0 || Math.round(force.getLength()) == 0 ) {
 			return this;
@@ -248,6 +246,10 @@ public class RigidBody {
 		direction.normalize();
 		
 		return this;
+	}
+	
+	public RigidBody addForce(Vector2f force) {
+		return addImpulse(force.clone().mult(pe.getCurrentDelta()));
 	}
 	
 	public RigidBody sendPhysicsEngine(PhysicsEngine pe) {

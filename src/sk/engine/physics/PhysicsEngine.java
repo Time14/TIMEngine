@@ -18,6 +18,8 @@ public class PhysicsEngine {
 	
 	private Vector2f gravity;
 	
+	private double currentDelta;
+	
 	public PhysicsEngine() {
 		bodies = new ArrayList<>();
 		deathPool = new Stack<>();
@@ -26,6 +28,8 @@ public class PhysicsEngine {
 	}
 	
 	public void update(double tick) {
+		
+		currentDelta = tick;
 		
 		//Send dead rigid bodies to death pool
 		for(RigidBody rb : deathPool) {
@@ -49,6 +53,7 @@ public class PhysicsEngine {
 			}
 		}
 		
+		// Clear the collision cache
 		collisions.removeAll(collisions);
 		//Collision Check
 		for(RigidBody rb1 :bodies) {
@@ -126,5 +131,9 @@ public class PhysicsEngine {
 	
 	public boolean hasGravity() {
 		return gravity.x != 0 || gravity.y != 0;
+	}
+	
+	public double getCurrentDelta() {
+		return currentDelta;
 	}
 }

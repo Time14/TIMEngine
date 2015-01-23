@@ -50,6 +50,7 @@ public class World {
 		
 		ground.getRigidBody().setMass(0);
 		ground.getRigidBody().setBounce(0.5f);
+		ground.getTransform().setRotation(0);
 		
 //		q2.getRigidBody().setMass(1.0f).setBounce(1.0f);
 		q1.getRigidBody().setMass(1.0f).setBounce(1.0f);
@@ -73,7 +74,7 @@ public class World {
 		if(p) {
 			if(b == 0) {
 				quads.add(new EntityQuad(Mouse.getX(), Window.getHeight()-Mouse.getY(), 0, 50, 50));
-				pe.addRigidBody(quads.get(quads.size()-1).getRigidBody());
+				pe.addRigidBody(quads.get(quads.size()-1).getRigidBody().setBounce(0.0f));
 			}
 		}
 	}
@@ -133,7 +134,7 @@ public class World {
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_UP)) {
-			q1.getRigidBody().addForce((float)(0),(float)(-10.0f));
+			q1.getRigidBody().addForce((float)(0),(float)(-50.0f));
 		}
 		
 		if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)) {
