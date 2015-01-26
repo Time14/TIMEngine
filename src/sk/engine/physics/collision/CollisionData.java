@@ -43,13 +43,13 @@ public class CollisionData {
 		this.body2 = body2;
 
 		simpleSATTest(body1, body2);
-		System.out.println("Simple");
-		System.out.println(depth);
-		System.out.println(normal);
-		SATTest(body1, body2);
-		System.out.println("Wierd");
-		System.out.println(depth);
-		System.out.println(normal);
+//		System.out.println("Simple");
+//		System.out.println(depth);
+//		System.out.println(normal);
+//		SATTest(body1, body2);
+//		System.out.println("Wierd");
+//		System.out.println(depth);
+//		System.out.println(normal);
 		pe.addCollision(this);
 	}
 	
@@ -134,9 +134,9 @@ public class CollisionData {
 			}
 		}
 	}
-	
+	/* This code is not used. It is a failed attempt at a SAT test with 3 degrees of freedom.*/
 	private Vector2f project(RigidBody polygon,Vector2f normal) {
-		float min = normal.dot(polygon.getColliderPoint(0));
+		float min = Math.abs(normal.dot(polygon.getPosition().to2D().sub(polygon.getColliderPoint(0))));
 		float max = min;
 		for( int i = 0; i < polygon.getColliderPoints().length ;  i++) {
 			float val = Math.abs(normal.dot(polygon.getPosition().to2D().sub(polygon.getColliderPoint(i))));
@@ -168,7 +168,7 @@ public class CollisionData {
 	 		thisNormal.normalize();
 			aDim = project(a, thisNormal);
 			bDim = project(b, thisNormal);
-			distance = Math.abs(a.getPosition().to2D().sub(b.getPosition().to2D()).dot(thisNormal));
+			distance = Math.abs(b.getPosition().to2D().sub(a.getPosition().to2D()).dot(thisNormal));
 			over1 = (aDim.x + bDim.y) - distance;
 			over2 = (aDim.y + bDim.x) - distance;
 			if (0 < over1 || 0 < over2) {
@@ -187,8 +187,9 @@ public class CollisionData {
 				}
 			}
 		}
+		///*
 		for( int i = 0; i < b.getColliderPoints().length; i++) {
-			thisNormal = b.getColliderPoint(i).sub(b.getColliderPoint((i+1) % b.getColliderPoints().length));
+			thisNormal = b.getColliderPoint(i).sub(a.getColliderPoint((i+1) % a.getColliderPoints().length));
 	 		thisNormal.normalize();
 			aDim = project(a, thisNormal);
 			bDim = project(b, thisNormal);
@@ -210,6 +211,7 @@ public class CollisionData {
 					continue;
 				}
 			}
-		}
-	}
+		}//*/
+	} 
+	//*/
 }

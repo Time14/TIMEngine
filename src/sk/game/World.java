@@ -44,7 +44,7 @@ public class World {
 		pe = new PhysicsEngine().setGravity(0, 10);
 		
 		
-//		q2 = new EntityQuad(300, 300, 0, 100, 100);
+		q2 = new EntityQuad(300, 300, 0, 100, 100);
 		q1 = new EntityQuad(100, 100, 0, 100, 100);
 		ground = new EntityQuad(300, 600, 0, 600, 100);
 		
@@ -52,16 +52,15 @@ public class World {
 		ground.getRigidBody().setBounce(0.5f);
 		ground.getTransform().setRotation(0);
 		
-//		q2.getRigidBody().setMass(1.0f).setBounce(1.0f);
-		q1.getRigidBody().setMass(1.0f).setBounce(1.0f);
+		q2.getRigidBody().setMass(0f).setBounce(1.0f);
+		q1.getRigidBody().setMass(0f).setBounce(1.0f);
 		
 		pe.addRigidBody(q1.getRigidBody());
-//		pe.addRigidBody(q2.getRigidBody());
+		pe.addRigidBody(q2.getRigidBody());
 		pe.addRigidBody(ground.getRigidBody());
 		q1.getRigidBody().addTorque(-90);
-//		q2.getRigidBody().addTorque(90);
-//		q1.getRigidBody().setForce(new Vector2f(1f,1f), 1);
-//		q2.getRigidBody().addForce(new Vector2f(1f,1f));
+		q2.getRigidBody().addTorque(90);
+		q2.getRigidBody().addForce(new Vector2f(1f,1f));
 		
 		
 		
@@ -74,7 +73,7 @@ public class World {
 		if(p) {
 			if(b == 0) {
 				quads.add(new EntityQuad(Mouse.getX(), Window.getHeight()-Mouse.getY(), 0, 50, 50));
-				pe.addRigidBody(quads.get(quads.size()-1).getRigidBody().setBounce(0.0f));
+				pe.addRigidBody(quads.get(quads.size()-1).getRigidBody().setBounce(0.0f).setMass(0.5f).addTorque(100));
 			}
 		}
 	}
@@ -121,7 +120,7 @@ public class World {
 		}
 		if(Keyboard.isKeyDown(Keyboard.KEY_R)) {
 			q1.getRigidBody().setMagnitude(0).setTorque(0).getTransform().setPosition(new Vector2f(75, 75)).setRotation(0.1f);
-//			q2.getRigidBody().setForce(new Vector2f(1,1),0).setTorque(0).getTransform().setPosition(new Vector2f(300, 300)).setRotation(0.1f);
+			q2.getRigidBody().setMagnitude(0).setTorque(0).getTransform().setPosition(new Vector2f(300, 300)).setRotation(0.1f);
 		}
 		
 		
@@ -217,7 +216,7 @@ public class World {
 	
 	public void draw() {
 		q1.draw();
-//		q2.draw();
+		q2.draw();
 		ground.draw();
 		
 		for(EntityQuad q : quads) {

@@ -50,7 +50,7 @@ public class RigidBody {
 		setMass(1.0f);
 		setDrag(1f);
 		setFriction(0.5f);
-		setBounce(0.5f);
+		setBounce(0.0f);
 		direction = new Vector2f();
 		colliders = new ArrayList<>();
 		alive = true;
@@ -72,7 +72,7 @@ public class RigidBody {
 //		transform.rotate(torque * delta);
 		
 		//Applying drag 
-//		torque -= torque * drag * delta;
+		torque -= torque * drag * delta;
 		magnitude -= magnitude * drag * delta; 
 	}
 	
