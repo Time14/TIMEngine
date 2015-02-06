@@ -44,9 +44,9 @@ public class AudioClip {
 			//The sample rate/frequency can be found at byte 24
 			freq = BufferUtil.getIntFromByteBuffer(buffer, WAV_SAMPLE_RATE_OFFSET, WAV_SAMPLE_RATE_SIZE);
 			
-			numChannels = BufferUtil.getIntFromByteBuffer(buffer, WAV_NUM_CHANNELS_OFFSET, WAV_NUM_CHANNELS_SIZE);
+			numChannels = BufferUtil.getShortFromByteBuffer(buffer, WAV_NUM_CHANNELS_OFFSET, WAV_NUM_CHANNELS_SIZE);
 			
-			bitRate = BufferUtil.getIntFromByteBuffer(buffer, WAV_BITS_PER_SAMPLE_OFFSET, WAV_BITS_PER_SAMPLE_SIZE);
+			bitRate = BufferUtil.getShortFromByteBuffer(buffer, WAV_BITS_PER_SAMPLE_OFFSET, WAV_BITS_PER_SAMPLE_SIZE);
 			
 			if(bitRate == 8)
 				format = numChannels == 1 ? FORMAT_MONO8 : FORMAT_STEREO8;
